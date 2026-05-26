@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSE 備考計劃 - 每週計劃表</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --p1: #2563eb; --p1-bg: #eff6ff; --p1-border: #bfdbfe;
+    --p2: #7c3aed; --p2-bg: #f5f3ff; --p2-border: #ddd6fe;
+    --p3: #dc2626; --p3-bg: #fef2f2; --p3-border: #fecaca;
+    --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0;
+    --gray-500: #64748b; --gray-700: #334155; --gray-900: #0f172a;
+    --math: #1d4ed8; --math-bg: #dbeafe;
+    --bio: #15803d; --bio-bg: #dcfce7;
+    --radius: 10px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--gray-50); color: var(--gray-900); }
+
+  .header { background:white; padding:20px 24px; border-bottom:1px solid var(--gray-200); box-shadow:0 1px 3px rgba(0,0,0,.05); position:sticky; top:0; z-index:100; }
+  .header h1 { font-size:1.3rem; }
+  .header h1 i { margin-right:8px; color:var(--p1); }
+  .header .sub { font-size:.85rem; color:var(--gray-500); margin-top:4px; }
+
+  .container { max-width:1100px; margin:0 auto; padding:20px 16px; }
+
+  /* Legend */
+  .legend { display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:.8rem; }
+  .legend-dot { width:12px; height:12px; border-radius:3px; }
+  .legend-dot.lp1 { background:var(--p1); }
+  .legend-dot.lp2 { background:var(--p2); }
+  .legend-dot.lp3 { background:var(--p3); }
+
+  /* Stats */
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+  .stat-card { background:white; border-radius:var(--radius); padding:16px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  .stat-card .num { font-size:1.6rem; font-weight:700; }
+  .stat-card .lbl { font-size:.78rem; color:var(--gray-500); margin-top:2px; }
+
+  /* Filter */
+  .filter { display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap; }
+  .filter button { padding:6px 14px; border:1px solid var(--gray-200); background:white; border-radius:20px; font-size:.8rem; cursor:pointer; transition:.2s; font-weight:500; }
+  .filter button:hover { background:var(--gray-100); }
+  .filter button.active { background:var(--p1); color:white; border-color:var(--p1); }
+
+  /* Table */
+  .plan-table { width:100%; border-collapse:collapse; background:white; border-radius:var(--radius); overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  .plan-table th { background:var(--gray-100); padding:10px 12px; font-size:.78rem; font-weight:700; text-align:left; border-bottom:2px solid var(--gray-200); white-space:nowrap; position:sticky; top:52px; z-index:50; }
+  .plan-table td { padding:10px 12px; font-size:.82rem; border-bottom:1px solid var(--gray-100); vertical-align:top; }
+  .plan-table tr:hover { background:var(--gray-50); }
+
+  .phase-tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; color:white; }
+  .phase-tag.p1 { background:var(--p1); }
+  .phase-tag.p2 { background:var(--p2); }
+  .phase-tag.p3 { background:var(--p3); }
+
+  .subj-tag { display:inline-block; padding:1px 6px; border-radius:3px; font-size:.68rem; font-weight:700; margin-right:4px; }
+  .subj-tag.math { background:var(--math-bg); color:var(--math); }
+  .subj-tag.bio { background:var(--bio-bg); color:var(--bio); }
+
+  .date-text { font-size:.75rem; color:var(--gray-500); white-space:nowrap; }
+  .topic-text { font-weight:600; font-size:.83rem; }
+  .focus-text { font-size:.75rem; color:var(--gray-500); margin-top:2px; }
+
+  .check-box { width:18px; height:18px; accent-color:#10b981; cursor:pointer; }
+
+  /* Month Exam Section */
+  .exam-section { margin-top:32px; }
+  .exam-section h2 { font-size:1.1rem; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .exam-section h2 i { color:var(--p2); }
+  .exam-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:12px; }
+  .exam-card { background:white; border-radius:var(--radius); padding:16px; box-shadow:0 1px 3px rgba(0,0,0,.08); border-left:4px solid var(--p2); }
+  .exam-card h3 { font-size:.9rem; margin-bottom:8px; }
+  .exam-card .exam-info { font-size:.8rem; color:var(--gray-500); }
+  .exam-card .exam-subject { display:inline-block; padding:2px 8px; border-radius:4px; font-size:.72rem; font-weight:700; margin-right:6px; }
+  .exam-card .exam-subject.math { background:var(--math-bg); color:var(--math); }
+  .exam-card .exam-subject.bio { background:var(--bio-bg); color:var(--bio); }
+
+  @media(max-width:768px) {
+    .stats { grid-template-columns:1fr; }
+    .container { padding:12px 8px; }
+    .plan-table th, .plan-table td { padding:8px 6px; font-size:.75rem; }
+    .plan-table .focus-col { display:none; }
+    .header { padding:14px 16px; }
+    .exam-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1><i class="fas fa-graduation-cap"></i> DSE 備考計劃 2026-2027</h1>
+  <div class="sub">數學 & 生物 · 2026年7月1日 - 2027年3月31日 · 共39週</div>
+</div>
+<div class="container">
+  <!-- 圖例 -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot lp1"></div> 階段一：單元複習（7-10月）</div>
+    <div class="legend-item"><div class="legend-dot lp2"></div> 階段二：跨單元整合（11-1月）</div>
+    <div class="legend-item"><div class="legend-dot lp3"></div> 階段三：模擬考衝刺（2-3月）</div>
+  </div>
+
+  <!-- 統計 -->
+  <div class="stats" id="stats"></div>
+
+  <!-- 月份篩選 -->
+  <div class="filter" id="filter"></div>
+
+  <!-- 表格 -->
+  <table class="plan-table">
+    <thead>
+      <tr>
+        <th style="width:32px"></th>
+        <th>週次</th>
+        <th>日期</th>
+        <th>階段</th>
+        <th>數學</th>
+        <th>生物</th>
+        <th class="focus-col">MC重點</th>
+        <th class="focus-col">SQ重點</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+
+  <!-- 月度考試 -->
+  <div class="exam-section">
+    <h2><i class="fas fa-calendar-check"></i> 月度考試安排（每月數學+生物各一套）</h2>
+    <div class="exam-grid" id="exams"></div>
+  </div>
+</div>
+
+<script>
+// === DATA ===
+const WEEKLY_PLAN = [[
+  // === 階段一：單元章節複習 ===
+  // --- 7月 ---
+  { week: 1, startDate: "2026-07-01", endDate: "2026-07-07", phase: 1, month: "2026-07",
+    math: { chapter: "M01", topic: "指數與對數", resource: "5A冊基礎技巧工作紙+分節工作紙",
+      mcFocus: "指數運算法則、對數性質", sqFocus: "指數方程求解、對數應用題" },
+    bio: { chapter: "B01", topic: "細胞與生命分子", resource: "step0 IT_Ch02~05 + section quiz set1",
+      mcFocus: "細胞結構辨識、生命分子分類", sqFocus: "顯微觀察描述、生命分子檢測實驗" }},
+  { week: 2, startDate: "2026-07-08", endDate: "2026-07-14", phase: 1, month: "2026-07",
+    math: { chapter: "M01", topic: "指數與對數（續）", resource: "每章測驗 CQ_ELM5A",
+      mcFocus: "對數換底、指數方程", sqFocus: "增長衰減應用、對數圖" },
+    bio: { chapter: "B01", topic: "細胞與生命分子（續）", resource: "step1 basic revision + step2 exam-type Ch01-05",
+      mcFocus: "細胞膜運輸機制", sqFocus: "滲透作用實驗設計" }},
+  { week: 3, startDate: "2026-07-15", endDate: "2026-07-21", phase: 1, month: "2026-07",
+    math: { chapter: "M02", topic: "多項式", resource: "5A冊基礎技巧工作紙",
+      mcFocus: "因式分解、多項式運算", sqFocus: "長除法、餘式定理" },
+    bio: { chapter: "B02", topic: "細胞能量與代謝", resource: "step0 IT_Ch06 + quiz set1",
+      mcFocus: "酵素特徵、影響因素", sqFocus: "酵素實驗設計、變數控制" }},
+  { week: 4, startDate: "2026-07-22", endDate: "2026-07-28", phase: 1, month: "2026-07",
+    math: { chapter: "M02", topic: "多項式（續）", resource: "5A冊分節工作紙+每章測驗",
+      mcFocus: "因式分解技巧、代數分式", sqFocus: "多項式恆等式證明" },
+    bio: { chapter: "B02", topic: "細胞能量與代謝（續）", resource: "step1+step2 exam-type Ch04-06",
+      mcFocus: "ATP與細胞呼吸概論", sqFocus: "呼吸作用與光合作用比較" }},
+
+  // --- 8月 ---
+  { week: 5, startDate: "2026-07-29", endDate: "2026-08-04", phase: 1, month: "2026-08",
+    math: { chapter: "M03", topic: "方程式與恆等式", resource: "5A冊基礎技巧+試題庫",
+      mcFocus: "二次方程解法、判別式", sqFocus: "應用題列方程、不等式聯立" },
+    bio: { chapter: "B03", topic: "植物營養與光合作用", resource: "step0 IT_Ch07~09",
+      mcFocus: "光合作用條件、限制因素", sqFocus: "光合作用實驗、氣體檢測" }},
+  { week: 6, startDate: "2026-08-05", endDate: "2026-08-11", phase: 1, month: "2026-08",
+    math: { chapter: "M03", topic: "方程式與恆等式（續）", resource: "每章測驗+試題庫",
+      mcFocus: "恆等式判斷、未知數求法", sqFocus: "較複雜方程應用" },
+    bio: { chapter: "B03", topic: "植物營養與光合作用（續）", resource: "step1+step2 exam-type Ch07-09",
+      mcFocus: "礦物質吸收、蒸騰作用", sqFocus: "卡爾文循環細節" }},
+  { week: 7, startDate: "2026-08-12", endDate: "2026-08-18", phase: 1, month: "2026-08",
+    math: { chapter: "M04", topic: "二項式定理", resource: "5A冊基礎技巧+分節工作紙",
+      mcFocus: "展開式通項、特定項求法", sqFocus: "二項式係數性質、近似值" },
+    bio: { chapter: "B04", topic: "人體營養", resource: "step0 IT_Ch10~11",
+      mcFocus: "消化酶種類及作用位置", sqFocus: "小腸吸收機制、實驗" }},
+  { week: 8, startDate: "2026-08-19", endDate: "2026-08-25", phase: 1, month: "2026-08",
+    math: { chapter: "M05", topic: "等差與等比數列", resource: "5B冊基礎技巧工作紙",
+      mcFocus: "數列通項公式、和的公式", sqFocus: "數列應用題（增長、利息）" },
+    bio: { chapter: "B04", topic: "人體營養（續）", resource: "step1+step2 exam-type Ch10-11",
+      mcFocus: "營養缺乏症、均衡飲食", sqFocus: "消化系統實驗設計" }},
+  { week: 9, startDate: "2026-08-26", endDate: "2026-09-01", phase: 1, month: "2026-08",
+    math: { chapter: "M05", topic: "等差與等比數列（續）", resource: "5B冊分節工作紙+測驗",
+      mcFocus: "混合數列辨別、收斂數列", sqFocus: "複雜數列應用" },
+    bio: { chapter: "B05", topic: "氣體交換與呼吸", resource: "step0 IT_Ch12~13",
+      mcFocus: "呼吸系統結構、氣體交換原理", sqFocus: "呼吸實驗（呼吸管、氫氧化鈣）" }},
+
+  // --- 9月 ---
+  { week: 10, startDate: "2026-09-02", endDate: "2026-09-08", phase: 1, month: "2026-09",
+    math: { chapter: "M06", topic: "不等式", resource: "5B冊基礎技巧+分節工作紙",
+      mcFocus: "一元二次不等式解法", sqFocus: "線性規劃初步、不等式證明" },
+    bio: { chapter: "B05", topic: "氣體交換與呼吸（續）", resource: "step1+step2 exam-type Ch12-13",
+      mcFocus: "人體呼吸vs細胞呼吸", sqFocus: "呼吸作用實驗比較" }},
+  { week: 11, startDate: "2026-09-09", endDate: "2026-09-15", phase: 1, month: "2026-09",
+    math: { chapter: "M07", topic: "直線與圓", resource: "5B冊基礎技巧+分節工作紙",
+      mcFocus: "兩直線關係、圓方程辨識", sqFocus: "圓與直線交點、軌跡題" },
+    bio: { chapter: "B06", topic: "運輸系統", resource: "step0 IT_Ch14~15",
+      mcFocus: "血管種類與特徵", sqFocus: "心臟結構與循環路徑" }},
+  { week: 12, startDate: "2026-09-16", endDate: "2026-09-22", phase: 1, month: "2026-09",
+    math: { chapter: "M07", topic: "直線與圓（續）", resource: "5B冊測驗+試題庫",
+      mcFocus: "圓的切線方程", sqFocus: "坐標幾何綜合題" },
+    bio: { chapter: "B06", topic: "運輸系統（續）", resource: "step1+step2 exam-type Ch14-15",
+      mcFocus: "血液成分與功能", sqFocus: "血型、血壓相關題" }},
+  { week: 13, startDate: "2026-09-23", endDate: "2026-09-29", phase: 1, month: "2026-09",
+    math: { chapter: "M08", topic: "三角學", resource: "6A冊基礎技巧工作紙",
+      mcFocus: "三角恆等式、弧度制", sqFocus: "三角方程求解、恆等式證明" },
+    bio: { chapter: "B07", topic: "支持與運動", resource: "step0 IT_Ch16~17",
+      mcFocus: "骨骼系統、關節類型", sqFocus: "人體運動原理、肌肉收縮" }},
+
+  // --- 10月 ---
+  { week: 14, startDate: "2026-09-30", endDate: "2026-10-06", phase: 1, month: "2026-10",
+    math: { chapter: "M08", topic: "三角學（續）", resource: "6A冊分節工作紙+測驗",
+      mcFocus: "正弦餘弦定理應用", sqFocus: "三角形面積、測量應用" },
+    bio: { chapter: "B08", topic: "偵測與協調（神經系統）", resource: "step0 IT_Ch18~19",
+      mcFocus: "神經元結構、反射弧", sqFocus: "反射弧繪圖、實驗設計" }},
+  { week: 15, startDate: "2026-10-07", endDate: "2026-10-13", phase: 1, month: "2026-10",
+    math: { chapter: "M09", topic: "續三角學", resource: "6A冊基礎技巧+分節工作紙",
+      mcFocus: "三角函數圖像變換", sqFocus: "三角方程解的個數、最大最小值" },
+    bio: { chapter: "B09", topic: "協調與反應（荷爾蒙）", resource: "step0 IT_Ch19~20",
+      mcFocus: "內分泌腺與激素功能", sqFocus: "神經vs內分泌協調比較" }},
+  { week: 16, startDate: "2026-10-14", endDate: "2026-10-20", phase: 1, month: "2026-10",
+    math: { chapter: "M10", topic: "測量學", resource: "6A冊基礎技巧+分節工作紙",
+      mcFocus: "表面積與體積公式", sqFocus: "三維空間計算、組合體" },
+    bio: { chapter: "B10", topic: "恆定性", resource: "step0 IT_Ch21~22",
+      mcFocus: "體溫調節機制", sqFocus: "血糖調節反饋機制" }},
+  { week: 17, startDate: "2026-10-21", endDate: "2026-10-27", phase: 1, month: "2026-10",
+    math: { chapter: "M11", topic: "概率", resource: "6A冊基礎技巧+分節工作紙",
+      mcFocus: "概率基本運算、樹形圖", sqFocus: "條件概率、獨立事件" },
+    bio: { chapter: "B11", topic: "生殖", resource: "step0 IT_Ch23~24",
+      mcFocus: "有絲分裂各期特徵", sqFocus: "有絲分裂vs減數分裂比較" }},
+
+  // === 階段二：跨單元整合 ===
+  // --- 11月 ---
+  { week: 18, startDate: "2026-10-28", endDate: "2026-11-03", phase: 2, month: "2026-11",
+    math: { chapter: "M12", topic: "統計學", resource: "6A冊基礎技巧+分節工作紙",
+      mcFocus: "平均數、中位數、眾數、標準差", sqFocus: "分組數據處理、頻數分佈" },
+    bio: { chapter: "B12", topic: "遺傳與變異", resource: "step0 IT_Ch26~28",
+      mcFocus: "孟德爾遺傳定律", sqFocus: "遺傳圖解繪製、基因型表現型比例" }},
+  { week: 19, startDate: "2026-11-04", endDate: "2026-11-10", phase: 2, month: "2026-11",
+    topic: "數學跨單元整合(一)：代數與數列",
+    math: { chapter: "MX01", topic: "代數與數列整合", resource: "試題庫+超级題庫 4A/5A/5B",
+      mcFocus: "指數對數+數列+多項式綜合", sqFocus: "跨章節應用題" },
+    bio: { chapter: "BX01", topic: "細胞與能量整合", resource: "跨課練習 Cross Topic Ex I",
+      mcFocus: "細胞結構+酵素+呼吸", sqFocus: "跨章節綜合題" }},
+  { week: 20, startDate: "2026-11-11", endDate: "2026-11-17", phase: 2, month: "2026-11",
+    topic: "數學跨單元整合(二)：幾何與三角",
+    math: { chapter: "MX02", topic: "幾何與三角整合", resource: "超级題庫 5B/6A",
+      mcFocus: "坐標幾何+三角學+測量學", sqFocus: "綜合幾何證明與計算" },
+    bio: { chapter: "BX02", topic: "人體系統整合", resource: "跨課練習 Cross Topic Ex II-III",
+      mcFocus: "營養+氣體交換+運輸", sqFocus: "人體各系統協作綜合題" }},
+  { week: 21, startDate: "2026-11-18", endDate: "2026-11-24", phase: 2, month: "2026-11",
+    topic: "數學跨單元整合(三)：概率與統計",
+    math: { chapter: "MX03", topic: "概率與統計整合", resource: "超级題庫 6A+數學教輔",
+      mcFocus: "概率+統計+數據分析綜合", sqFocus: "資料處理與解釋題" },
+    bio: { chapter: "BX03", topic: "神經與協調整合", resource: "跨課練習 Cross Topic Ex IV",
+      mcFocus: "神經+荷爾蒙+恆定性", sqFocus: "協調機制比較綜合題" }},
+  { week: 22, startDate: "2026-11-25", endDate: "2026-12-01", phase: 2, month: "2026-11",
+    topic: "生物跨單元整合(一)：遺傳與生殖",
+    math: { chapter: "MX04", topic: "全卷綜合訓練(一)", resource: "数学真题 BY TOPIC",
+      mcFocus: "選擇題：混合各章重點", sqFocus: "結構題：代數+幾何綜合" },
+    bio: { chapter: "BX04", topic: "遺傳與生殖整合", resource: "跨課練習 Cross Topic Ex V",
+      mcFocus: "有絲分裂+減數分裂+遺傳", sqFocus: "遺傳概率計算、系譜圖分析" }},
+
+  // --- 12月 ---
+  { week: 23, startDate: "2026-12-02", endDate: "2026-12-08", phase: 2, month: "2026-12",
+    topic: "生物跨單元整合(二)：環境與人體",
+    math: { chapter: "MX05", topic: "全卷綜合訓練(二)", resource: "试题库 5A-6A",
+      mcFocus: "選擇題：歷屆常考題型", sqFocus: "結構題：三角學+概率綜合" },
+    bio: { chapter: "BX05", topic: "環境與生物系統整合", resource: "跨課練習 Cross Topic Ex VI",
+      mcFocus: "光合+呼吸+運輸+環境", sqFocus: "生態系統綜合分析" }},
+  { week: 24, startDate: "2026-12-09", endDate: "2026-12-15", phase: 2, month: "2026-12",
+    topic: "數學全卷模擬(一) + 生物跨單元(三)",
+    math: { chapter: "MX06", topic: "Paper 1 模擬訓練", resource: "模擬試卷+真题 2012-2020",
+      mcFocus: "Paper 1 Section A+B 練習", sqFocus: "Paper 1 Section C 練習" },
+    bio: { chapter: "BX06", topic: "全卷綜合訓練", resource: "step2 跨課練習+ESSAY",
+      mcFocus: "混合各單元選擇題", sqFocus: "長題目作答訓練" }},
+  { week: 25, startDate: "2026-12-16", endDate: "2026-12-22", phase: 2, month: "2026-12",
+    topic: "模擬考(一)：數學Paper 2 + 生物Paper 1A",
+    math: { chapter: "MT01", topic: "Paper 2 模擬", resource: "模擬試卷 Paper 2",
+      mcFocus: "Paper 2 全卷限時練習", sqFocus: "選擇題策略與速解技巧" },
+    bio: { chapter: "BT01", topic: "Paper 1A 模擬", resource: "step3 mock series",
+      mcFocus: "Paper 1A（選擇題）模擬", sqFocus: "限时45分鐘完成" }},
+  { week: 26, startDate: "2026-12-23", endDate: "2026-12-29", phase: 2, month: "2026-12",
+    topic: "聖誕假溫習週",
+    math: { chapter: "MR01", topic: "薄弱單元補強", resource: "根據前25週表現選擇",
+      mcFocus: "個人化弱項選擇題", sqFocus: "個人化弱項結構題" },
+    bio: { chapter: "BR01", topic: "薄弱單元補強", resource: "根據前25週表現選擇",
+      mcFocus: "個人化弱項選擇題", sqFocus: "個人化弱項結構題" }},
+
+  // --- 1月 ---
+  { week: 27, startDate: "2026-12-30", endDate: "2027-01-05", phase: 2, month: "2027-01",
+    topic: "數學全卷模擬(二) + 生物全卷模擬(一)",
+    math: { chapter: "MT02", topic: "Paper 1 全卷訓練", resource: "模擬試卷+真题",
+      mcFocus: "限時2小時15分完成Paper 1", sqFocus: "時間分配策略" },
+    bio: { chapter: "BT02", topic: "Paper 1B 模擬", resource: "step3 mock series",
+      mcFocus: "Paper 1B（結構題）模擬", sqFocus: "限時1小時45分完成" }},
+  { week: 28, startDate: "2027-01-06", endDate: "2027-01-12", phase: 2, month: "2027-01",
+    topic: "模擬考(二)：數學全卷 + 生物Paper 2",
+    math: { chapter: "MT03", topic: "全卷模擬訓練", resource: "2015-2019 DSE真题",
+      mcFocus: "Paper 2 選擇題模擬", sqFocus: "Paper 1 結構題模擬" },
+    bio: { chapter: "BT03", topic: "Paper 2 模擬", resource: "step3 mock series+ESSAY",
+      mcFocus: "Paper 2（長題目）模擬", sqFocus: "限時1小時完成" }},
+  { week: 29, startDate: "2027-01-13", endDate: "2027-01-19", phase: 2, month: "2027-01",
+    topic: "模擬考(三)：數學+生物全卷",
+    math: { chapter: "MT04", topic: "全卷模擬", resource: "2020-2022 DSE真题",
+      mcFocus: "Paper 1+2 限時模擬", sqFocus: "答題策略與檢查技巧" },
+    bio: { chapter: "BT04", topic: "全卷模擬", resource: "mock series 2 set 1-3",
+      mcFocus: "Paper 1A+1B 限時模擬", sqFocus: "答題組織與時間管理" }},
+  { week: 30, startDate: "2027-01-20", endDate: "2027-01-26", phase: 2, month: "2027-01",
+    topic: "模擬考(四)：數學+生物全卷",
+    math: { chapter: "MT05", topic: "全卷模擬", resource: "2023-2024 DSE真题",
+      mcFocus: "全卷限時訓練", sqFocus: "難題突破策略" },
+    bio: { chapter: "BT05", topic: "全卷模擬", resource: "mock series 2 set 4-5",
+      mcFocus: "全卷限時訓練", sqFocus: "ESSAY題作答策略" }},
+
+  // === 階段三：模擬考衝刺 ===
+  // --- 2月 ---
+  { week: 31, startDate: "2027-01-27", endDate: "2027-02-02", phase: 3, month: "2027-02",
+    topic: "衝刺模擬(一)：數學+生物",
+    math: { chapter: "FS01", topic: "衝刺模擬考", resource: "2024-2025 DSE真题",
+      mcFocus: "Paper 2 模擬考", sqFocus: "Paper 1 模擬考" },
+    bio: { chapter: "FB01", topic: "衝刺模擬考", resource: "2024-2025 DSE真题",
+      mcFocus: "Paper 1A 模擬考", sqFocus: "Paper 1B+2 模擬考" }},
+  { week: 32, startDate: "2027-02-03", endDate: "2027-02-09", phase: 3, month: "2027-02",
+    topic: "衝刺模擬(二)：數學+生物",
+    math: { chapter: "FS02", topic: "衝刺模擬考", resource: "模擬試卷 教育出版社+學友社",
+      mcFocus: "Mock Paper 2", sqFocus: "Mock Paper 1" },
+    bio: { chapter: "FB02", topic: "衝刺模擬考", resource: "mock series 2 set 6-7",
+      mcFocus: "Mock Paper 1A", sqFocus: "Mock Paper 1B+2" }},
+  { week: 33, startDate: "2027-02-10", endDate: "2027-02-16", phase: 3, month: "2027-02",
+    topic: "農曆新年假溫習",
+    math: { chapter: "FR01", topic: "錯題重做+弱項補強", resource: "個人錯題本",
+      mcFocus: "歷屆MC錯題重做", sqFocus: "歷屆SQ弱項加強" },
+    bio: { chapter: "FR01", topic: "錯題重做+弱項補強", resource: "個人錯題本",
+      mcFocus: "歷屆MC錯題重做", sqFocus: "歷屆SQ弱項加強" }},
+  { week: 34, startDate: "2027-02-17", endDate: "2027-02-23", phase: 3, month: "2027-02",
+    topic: "衝刺模擬(三)：數學+生物",
+    math: { chapter: "FS03", topic: "衝刺模擬考", resource: "2019-2021 DSE真题",
+      mcFocus: "Paper 2 速解訓練", sqFocus: "Paper 1 速解訓練" },
+    bio: { chapter: "FB03", topic: "衝刺模擬考", resource: "mock series 2 set 8",
+      mcFocus: "Paper 1A 速解訓練", sqFocus: "Paper 1B+2 速解訓練" }},
+  { week: 35, startDate: "2027-02-24", endDate: "2027-03-02", phase: 3, month: "2027-02",
+    topic: "衝刺模擬(四)：數學+生物",
+    math: { chapter: "FS04", topic: "衝刺模擬考", resource: "2022-2023 DSE真题",
+      mcFocus: "全卷模擬+時間管理", sqFocus: "難題突破+檢查" },
+    bio: { chapter: "FB04", topic: "衝刺模擬考", resource: "真題 by topic 總復習",
+      mcFocus: "各單元MC重點回顧", sqFocus: "各單元SQ重點回顧" }},
+
+  // --- 3月 ---
+  { week: 36, startDate: "2027-03-03", endDate: "2027-03-09", phase: 3, month: "2027-03",
+    topic: "最終衝刺(一)：數學+生物",
+    math: { chapter: "FF01", topic: "最終模擬考", resource: "2025 DSE真题",
+      mcFocus: "Paper 2 最終模擬", sqFocus: "Paper 1 最終模擬" },
+    bio: { chapter: "FF01", topic: "最終模擬考", resource: "2025 DSE真题+sample with marking",
+      mcFocus: "Paper 1A 最終模擬", sqFocus: "Paper 1B+2 最終模擬" }},
+  { week: 37, startDate: "2027-03-10", endDate: "2027-03-16", phase: 3, month: "2027-03",
+    topic: "最終衝刺(二)：答題技巧+應試策略",
+    math: { chapter: "FF02", topic: "應試策略訓練", resource: "舉1反5+数学王",
+      mcFocus: "必操題型速解", sqFocus: "高分題型拆解" },
+    bio: { chapter: "FF02", topic: "應試策略訓練", resource: "HKDSE應試錦囊+技巧提升教材",
+      mcFocus: "拆解熱門MC題", sqFocus: "拆解熱門SQ+ESSAY技巧" }},
+  { week: 38, startDate: "2027-03-17", endDate: "2027-03-23", phase: 3, month: "2027-03",
+    topic: "最終衝刺(三)：全科模擬+錯題總複習",
+    math: { chapter: "FF03", topic: "全科總複習", resource: "錯題本+重點歸納",
+      mcFocus: "全卷最後練習", sqFocus: "重點公式+口訣總複習" },
+    bio: { chapter: "FF03", topic: "全科總複習", resource: "Bio Notes by Lyann+錯題本",
+      mcFocus: "全卷最後練習", sqFocus: "重點概念+口訣總複習" }},
+  { week: 39, startDate: "2027-03-24", endDate: "2027-03-31", phase: 3, month: "2027-03",
+    topic: "考前最終準備：心態調整+輕鬆複習",
+    math: { chapter: "FF04", topic: "考前輕鬆複習", resource: "錯題本+筆記",
+      mcFocus: "只看筆記和口訣", sqFocus: "必操題型快速過一遍" },
+    bio: { chapter: "FF04", topic: "考前輕鬆複習", resource: "Bio Notes+應試錦囊",
+      mcFocus: "只看筆記和口訣", sqFocus: "ESSAY框架快速回顧" }}
+]];
+const MONTHLY_EXAMS = [[
+  { month: "2026-07", period: "7月", subjects: [
+    { subject: "math", name: "數學月考一", chapters: ["M01","M02"], resource: "试题库 QB_ELM5A", time: "60分鐘" },
+    { subject: "bio", name: "生物月考一", chapters: ["B01","B02"], resource: "step2 exam-type set1 Ch01-06", time: "60分鐘" }
+  ]},
+  { month: "2026-08", period: "8月", subjects: [
+    { subject: "math", name: "數學月考二", chapters: ["M03","M04","M05"], resource: "试题库 QB_ELM5A+5B", time: "75分鐘" },
+    { subject: "bio", name: "生物月考二", chapters: ["B03","B04","B05"], resource: "step2 exam-type set1 Ch07-13", time: "75分鐘" }
+  ]},
+  { month: "2026-09", period: "9月", subjects: [
+    { subject: "math", name: "數學月考三", chapters: ["M06","M07","M08","M09"], resource: "试题库 QB_ELM5B+6A", time: "90分鐘" },
+    { subject: "bio", name: "生物月考三", chapters: ["B06","B07","B08","B09"], resource: "step2 exam-type set1 Ch14-20", time: "90分鐘" }
+  ]},
+  { month: "2026-10", period: "10月", subjects: [
+    { subject: "math", name: "數學月考四", chapters: ["M10","M11","M12"], resource: "试题库 QB_ELM6A+超级題庫", time: "75分鐘" },
+    { subject: "bio", name: "生物月考四", chapters: ["B10","B11","B12"], resource: "step2 exam-type set1 Ch21-28", time: "75分鐘" }
+  ]},
+  { month: "2026-11", period: "11月", subjects: [
+    { subject: "math", name: "數學期中考", chapters: "M01-M12 跨單元", resource: "模擬試卷 第一套", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物期中考", chapters: "B01-B12 跨單元", resource: "跨課練習綜合+ESSAY", time: "3小時(P1)+1小時(P2)" }
+  ]},
+  { month: "2026-12", period: "12月", subjects: [
+    { subject: "math", name: "數學期末考", chapters: "全卷模擬", resource: "模擬試卷 第二套", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物期末考", chapters: "全卷模擬", resource: "mock series 2", time: "3小時(P1)+1小時(P2)" }
+  ]},
+  { month: "2027-01", period: "1月", subjects: [
+    { subject: "math", name: "數學模擬DSE(一)", chapters: "全卷", resource: "DSE真题 2020-2022", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物模擬DSE(一)", chapters: "全卷", resource: "DSE真题 2020-2022", time: "3小時(P1)+1小時(P2)" }
+  ]},
+  { month: "2027-02", period: "2月", subjects: [
+    { subject: "math", name: "數學模擬DSE(二)", chapters: "全卷", resource: "模擬試卷 第三套", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物模擬DSE(二)", chapters: "全卷", resource: "mock series 2 晚期套", time: "3小時(P1)+1小時(P2)" }
+  ]},
+  { month: "2027-03", period: "3月", subjects: [
+    { subject: "math", name: "數學最終模擬", chapters: "全卷", resource: "DSE真题 2024-2025", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物最終模擬", chapters: "全卷", resource: "DSE真题 2024-2025", time: "3小時(P1)+1小時(P2)" }
+  ]}
+]];
+
+// === HELPERS ===
+const MONTHS = ['2026-07','2026-08','2026-09','2026-10','2026-11','2026-12','2027-01','2027-02','2027-03'];
+const MONTH_NAMES = {'2026-07':'7月','2026-08':'8月','2026-09':'9月','2026-10':'10月','2026-11':'11月','2026-12':'12月','2027-01':'1月','2027-02':'2月','2027-03':'3月'};
+const PHASE_LABELS = {1:'單元複習',2:'跨單元整合',3:'模擬考衝刺'};
+let currentFilter = 'all';
+
+function fd(d){ const p=d.split('-'); return p[1]+'/'+p[2]; }
+function isChecked(w){ return localStorage.getItem('wp_'+w)==='1'; }
+function toggleCheck(w){ localStorage.setItem('wp_'+w, isChecked(w)?'0':'1'); render(); }
+function esc(s){ return s.replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// === RENDER ===
+function render(){
+  // Stats
+  const done = WEEKLY_PLAN.filter(w=>isChecked(w.week)).length;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card"><div class="num">${WEEKLY_PLAN.length}</div><div class="lbl">總週數</div></div>
+    <div class="stat-card"><div class="num" style="color:#10b981">${done}</div><div class="lbl">已完成</div></div>
+    <div class="stat-card"><div class="num" style="color:${done/WEEKLY_PLAN.length>0.7?'#10b981':done/WEEKLY_PLAN.length>0.4?'#f59e0b':'var(--p3)'}">${(done/WEEKLY_PLAN.length*100).toFixed(0)}%</div><div class="lbl">完成率</div></div>
+  `;
+
+  // Filter
+  document.getElementById('filter').innerHTML = `<button class="${currentFilter==='all'?'active':''}" onclick="setFilter('all')">全部</button>` +
+    MONTHS.map(m=>`<button class="${currentFilter===m?'active':''}" onclick="setFilter('${m}')">${MONTH_NAMES[m]}</button>`).join('');
+
+  // Table
+  const filtered = currentFilter==='all' ? WEEKLY_PLAN : WEEKLY_PLAN.filter(w=>w.month===currentFilter);
+  document.getElementById('tbody').innerHTML = filtered.map(w=>`
+    <tr style="opacity:${isChecked(w.week)?'0.5':'1'}">
+      <td><input type="checkbox" class="check-box" ${isChecked(w.week)?'checked':''} onchange="toggleCheck(${w.week})"></td>
+      <td><strong>W${w.week}</strong></td>
+      <td><span class="date-text">${fd(w.startDate)}<br>${fd(w.endDate)}</span></td>
+      <td><span class="phase-tag p${w.phase}">階段${['','一','二','三'][w.phase]}</span></td>
+      <td><span class="subj-tag math">數</span><span class="topic-text">${esc(w.math.topic)}</span></td>
+      <td><span class="subj-tag bio">生</span><span class="topic-text">${esc(w.bio.topic)}</span></td>
+      <td class="focus-col"><span class="focus-text">${esc(w.math.mcFocus)}</span></td>
+      <td class="focus-col"><span class="focus-text">${esc(w.math.sqFocus)}</span></td>
+    </tr>
+  `).join('');
+
+  // Exams
+  document.getElementById('exams').innerHTML = MONTHLY_EXAMS.map(ex=>`
+    <div class="exam-card">
+      <h3><i class="fas fa-calendar"></i> ${ex.period}</h3>
+      ${ex.subjects.map(s=>`
+        <div style="margin-top:6px">
+          <span class="exam-subject ${s.subject==='math'?'math':'bio'}">${s.subject==='math'?'數學':'生物'}</span>
+          <strong style="font-size:.85rem">${esc(s.name)}</strong>
+          <div class="exam-info"><i class="fas fa-book"></i> ${Array.isArray(s.chapters)?s.chapters.join(', '):s.chapters} · <i class="fas fa-clock"></i> ${s.time}</div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function setFilter(f){ currentFilter=f; render(); }
+render();
+</script>
+</body>
+</html>

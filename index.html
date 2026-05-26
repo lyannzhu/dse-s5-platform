@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSE 備考計劃 2026-2027</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #7c3aed;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-500: #64748b;
+    --gray-700: #334155;
+    --gray-900: #0f172a;
+    --radius: 12px;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--gray-50); color: var(--gray-900); min-height:100vh; }
+
+  /* Login Page */
+  #login-page { display:flex; align-items:center; justify-content:center; min-height:100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+  .login-box { background:white; border-radius:16px; padding:48px; width:420px; max-width:90vw; box-shadow: var(--shadow-lg); text-align:center; }
+  .login-box h1 { font-size:1.8rem; margin-bottom:8px; color:var(--gray-900); }
+  .login-box p.sub { color:var(--gray-500); margin-bottom:32px; font-size:.95rem; }
+  .login-box .role-tabs { display:flex; gap:8px; margin-bottom:24px; }
+  .login-box .role-tab { flex:1; padding:12px; border:2px solid var(--gray-200); border-radius:var(--radius); cursor:pointer; transition:.2s; font-weight:600; }
+  .login-box .role-tab.active { border-color:var(--primary); background:var(--primary); color:white; }
+  .login-box .role-tab i { display:block; font-size:1.5rem; margin-bottom:4px; }
+  .login-box input[type=text], .login-box input[type=password] { width:100%; padding:12px 16px; border:2px solid var(--gray-200); border-radius:8px; font-size:1rem; margin-bottom:12px; transition:.2s; }
+  .login-box input:focus { outline:none; border-color:var(--primary); }
+  .login-box .student-fields { display:none; }
+  .login-box .student-fields.show { display:block; }
+  .login-box .student-row { display:flex; gap:12px; }
+  .login-box .student-row input { flex:1; }
+  .login-box button { width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:1.1rem; font-weight:600; cursor:pointer; transition:.2s; }
+  .login-box button:hover { background:var(--primary-dark); }
+  .login-box .error { color:var(--danger); font-size:.85rem; margin-top:12px; display:none; }
+
+  /* Header */
+  .header { background:white; padding:16px 24px; border-bottom:1px solid var(--gray-200); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+  .header h1 { font-size:1.3rem; display:flex; align-items:center; gap:10px; }
+  .header h1 .math-icon { color:var(--primary); }
+  .header h1 .bio-icon { color:var(--success); }
+  .header .user-info { display:flex; align-items:center; gap:12px; }
+  .header .user-badge { background:var(--gray-100); padding:6px 14px; border-radius:20px; font-size:.85rem; font-weight:600; }
+  .header .user-badge i { margin-right:4px; }
+  .header .logout-btn { background:none; border:1px solid var(--gray-300); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:.85rem; transition:.2s; }
+  .header .logout-btn:hover { background:var(--gray-100); }
+
+  /* Navigation */
+  .nav { background:white; border-bottom:1px solid var(--gray-200); padding:0 24px; display:flex; gap:0; overflow-x:auto; }
+  .nav button { padding:14px 20px; border:none; background:none; font-size:.9rem; font-weight:600; color:var(--gray-500); cursor:pointer; border-bottom:3px solid transparent; white-space:nowrap; transition:.2s; }
+  .nav button:hover { color:var(--primary); }
+  .nav button.active { color:var(--primary); border-bottom-color:var(--primary); }
+  .nav button i { margin-right:6px; }
+
+  /* Content */
+  .content { max-width:1200px; margin:0 auto; padding:24px; }
+  .page { display:none; }
+  .page.active { display:block; }
+
+  /* Cards */
+  .card { background:white; border-radius:var(--radius); box-shadow:var(--shadow); padding:24px; margin-bottom:20px; }
+  .card h2 { font-size:1.2rem; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .card h2 i { color:var(--primary); }
+
+  /* Phase Banner */
+  .phase-banner { padding:20px 24px; border-radius:var(--radius); margin-bottom:24px; color:white; }
+  .phase-banner.phase1 { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+  .phase-banner.phase2 { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
+  .phase-banner.phase3 { background: linear-gradient(135deg, #dc2626, #ef4444); }
+  .phase-banner h2 { color:white; font-size:1.3rem; margin-bottom:4px; }
+  .phase-banner p { opacity:.9; font-size:.9rem; }
+
+  /* Overview Stats */
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:16px; margin-bottom:24px; }
+  .stat-card { background:white; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); text-align:center; }
+  .stat-card .number { font-size:2rem; font-weight:700; color:var(--primary); }
+  .stat-card .label { font-size:.85rem; color:var(--gray-500); margin-top:4px; }
+
+  /* Week Card */
+  .week-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px,1fr)); gap:16px; }
+  .week-card { background:white; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; border-left:4px solid var(--gray-300); transition:.2s; }
+  .week-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-2px); }
+  .week-card.p1 { border-left-color:var(--primary); }
+  .week-card.p2 { border-left-color:var(--secondary); }
+  .week-card.p3 { border-left-color:var(--danger); }
+  .week-card.completed { opacity:.7; border-left-color:var(--success); }
+  .week-header { padding:14px 18px; background:var(--gray-50); display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--gray-200); }
+  .week-header .week-num { font-weight:700; font-size:.95rem; }
+  .week-header .week-date { font-size:.8rem; color:var(--gray-500); }
+  .week-body { padding:14px 18px; }
+  .week-subject { margin-bottom:10px; }
+  .week-subject:last-child { margin-bottom:0; }
+  .subject-tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:.75rem; font-weight:700; margin-bottom:4px; }
+  .subject-tag.math { background:#dbeafe; color:#1d4ed8; }
+  .subject-tag.bio { background:#dcfce7; color:#15803d; }
+  .subject-topic { font-size:.9rem; font-weight:600; }
+  .subject-detail { font-size:.8rem; color:var(--gray-500); margin-top:2px; }
+
+  /* Progress Bar */
+  .progress-bar { height:8px; background:var(--gray-200); border-radius:4px; overflow:hidden; margin:8px 0; }
+  .progress-bar .fill { height:100%; background:var(--success); border-radius:4px; transition:width .5s; }
+
+  /* Checklist */
+  .checklist { list-style:none; }
+  .checklist li { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--gray-100); }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist input[type=checkbox] { width:18px; height:18px; accent-color:var(--success); cursor:pointer; }
+  .checklist label { flex:1; cursor:pointer; font-size:.9rem; }
+  .checklist label.done { text-decoration:line-through; color:var(--gray-500); }
+
+  /* Quiz */
+  .quiz-container { max-width:700px; }
+  .quiz-question { background:white; border-radius:var(--radius); box-shadow:var(--shadow); padding:24px; margin-bottom:16px; }
+  .quiz-num { font-size:.8rem; color:var(--gray-500); margin-bottom:8px; }
+  .quiz-text { font-size:1rem; font-weight:600; margin-bottom:16px; }
+  .quiz-options { display:flex; flex-direction:column; gap:8px; }
+  .quiz-option { padding:12px 16px; border:2px solid var(--gray-200); border-radius:8px; cursor:pointer; transition:.2s; font-size:.9rem; }
+  .quiz-option:hover { border-color:var(--primary); background:#eff6ff; }
+  .quiz-option.selected { border-color:var(--primary); background:#eff6ff; }
+  .quiz-option.correct { border-color:var(--success); background:#ecfdf5; color:#15803d; }
+  .quiz-option.wrong { border-color:var(--danger); background:#fef2f2; color:#dc2626; }
+  .quiz-explanation { margin-top:12px; padding:12px; background:#fefce8; border-radius:8px; font-size:.85rem; display:none; }
+  .quiz-explanation.show { display:block; }
+
+  /* Quiz Controls */
+  .quiz-controls { display:flex; gap:12px; margin-top:20px; }
+  .btn { padding:10px 20px; border:none; border-radius:8px; font-weight:600; cursor:pointer; transition:.2s; font-size:.9rem; }
+  .btn-primary { background:var(--primary); color:white; }
+  .btn-primary:hover { background:var(--primary-dark); }
+  .btn-secondary { background:var(--gray-100); color:var(--gray-700); }
+  .btn-secondary:hover { background:var(--gray-200); }
+  .btn-success { background:var(--success); color:white; }
+  .btn-danger { background:var(--danger); color:white; }
+  .btn:disabled { opacity:.5; cursor:not-allowed; }
+
+  /* Timer */
+  .timer { display:flex; gap:8px; align-items:center; font-size:1.5rem; font-weight:700; font-variant-numeric:tabular-nums; }
+  .timer i { color:var(--danger); }
+
+  /* Score */
+  .score-display { text-align:center; padding:40px; }
+  .score-display .score-circle { width:120px; height:120px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:700; margin:0 auto 16px; }
+  .score-display .score-circle.excellent { background:#dcfce7; color:#15803d; }
+  .score-display .score-circle.good { background:#dbeafe; color:#1d4ed8; }
+  .score-display .score-circle.average { background:#fef3c7; color:#92400e; }
+  .score-display .score-circle.poor { background:#fef2f2; color:#dc2626; }
+
+  /* Wrong Questions Book */
+  .wrong-item { padding:16px; border:1px solid var(--gray-200); border-radius:8px; margin-bottom:12px; }
+  .wrong-item .wrong-q { font-weight:600; margin-bottom:8px; }
+  .wrong-item .wrong-meta { font-size:.8rem; color:var(--gray-500); margin-bottom:8px; }
+  .wrong-item .wrong-answer { font-size:.85rem; color:var(--success); }
+
+  /* Monthly Exam Card */
+  .exam-card { background:white; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; margin-bottom:16px; }
+  .exam-header { padding:16px 20px; display:flex; justify-content:space-between; align-items:center; }
+  .exam-header .exam-period { font-weight:700; font-size:1rem; }
+  .exam-body { padding:0 20px 16px; }
+  .exam-subject { padding:12px; background:var(--gray-50); border-radius:8px; margin-bottom:8px; }
+  .exam-subject:last-child { margin-bottom:0; }
+  .exam-subject .exam-name { font-weight:600; font-size:.9rem; }
+  .exam-subject .exam-info { font-size:.8rem; color:var(--gray-500); margin-top:4px; }
+
+  /* Teacher Panel Styles */
+  .teacher-stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:16px; margin-bottom:24px; }
+  .teacher-stat { background:white; border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; text-align:center; }
+  .teacher-stat i { font-size:2rem; margin-bottom:8px; }
+  .teacher-stat .val { font-size:1.8rem; font-weight:700; }
+  .teacher-stat .lbl { font-size:.85rem; color:var(--gray-500); }
+
+  /* Student Records Table */
+  .records-table { width:100%; border-collapse:collapse; }
+  .records-table th, .records-table td { padding:12px 16px; text-align:left; border-bottom:1px solid var(--gray-200); font-size:.85rem; }
+  .records-table th { background:var(--gray-50); font-weight:700; position:sticky; top:0; }
+  .records-table tr:hover { background:var(--gray-50); }
+  .badge { display:inline-block; padding:2px 10px; border-radius:10px; font-size:.75rem; font-weight:600; }
+  .badge-pass { background:#dcfce7; color:#15803d; }
+  .badge-fail { background:#fef2f2; color:#dc2626; }
+  .badge-pending { background:#fef3c7; color:#92400e; }
+
+  /* Textarea for student answer upload */
+  .answer-textarea { width:100%; min-height:120px; padding:12px; border:2px solid var(--gray-200); border-radius:8px; font-size:.9rem; font-family:inherit; resize:vertical; }
+  .answer-textarea:focus { outline:none; border-color:var(--primary); }
+
+  /* Tabs inside cards */
+  .inner-tabs { display:flex; gap:4px; margin-bottom:16px; background:var(--gray-100); padding:4px; border-radius:8px; }
+  .inner-tab { padding:8px 16px; border:none; background:none; border-radius:6px; font-size:.85rem; font-weight:600; cursor:pointer; transition:.2s; }
+  .inner-tab.active { background:white; box-shadow:var(--shadow); }
+  .inner-tab:hover { background:var(--gray-200); }
+  .inner-tab.active:hover { background:white; }
+
+  /* Responsive */
+  @media(max-width:768px) {
+    .header { padding:12px 16px; }
+    .content { padding:16px; }
+    .week-grid { grid-template-columns:1fr; }
+    .stats-grid { grid-template-columns:repeat(2,1fr); }
+    .nav { padding:0 12px; }
+    .nav button { padding:12px 14px; font-size:.8rem; }
+  }
+
+  /* Month filter */
+  .filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+  .filter-btn { padding:6px 14px; border:1px solid var(--gray-300); background:white; border-radius:20px; font-size:.8rem; cursor:pointer; transition:.2s; }
+  .filter-btn.active { background:var(--primary); color:white; border-color:var(--primary); }
+
+  /* Section for resource links */
+  .resource-link { display:inline-flex; align-items:center; gap:4px; color:var(--primary); font-size:.8rem; text-decoration:none; }
+  .resource-link:hover { text-decoration:underline; }
+
+  /* Student upload area */
+  .upload-area { border:2px dashed var(--gray-300); border-radius:8px; padding:20px; text-align:center; cursor:pointer; transition:.2s; }
+  .upload-area:hover { border-color:var(--primary); background:#eff6ff; }
+  .upload-area i { font-size:2rem; color:var(--gray-300); margin-bottom:8px; }
+
+  /* Modal */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; z-index:1000; display:none; }
+  .modal-overlay.show { display:flex; }
+  .modal { background:white; border-radius:16px; padding:32px; max-width:500px; width:90vw; max-height:80vh; overflow-y:auto; }
+  .modal h3 { margin-bottom:16px; }
+  .modal-close { float:right; background:none; border:none; font-size:1.2rem; cursor:pointer; }
+
+  /* Animations */
+  .fade-in { animation: fadeIn .3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+  /* Mnemonic Card */
+  .mnemonic-card { background:linear-gradient(135deg,#fef3c7,#fef9c3); border:1px solid #fbbf24; border-radius:var(--radius); padding:16px; margin-bottom:12px; }
+  .mnemonic-card .mnemonic-title { font-weight:700; color:#92400e; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .mnemonic-card .mnemonic-content { font-size:.9rem; line-height:1.6; }
+
+  /* Common Error Card */
+  .error-tip { background:#fef2f2; border:1px solid #fca5a5; border-radius:var(--radius); padding:16px; margin-bottom:12px; }
+  .error-tip .error-title { font-weight:700; color:#dc2626; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .error-tip .error-tip-text { font-size:.85rem; color:#15803d; }
+
+  /* Subject header in weekly view */
+  .subject-header { display:flex; align-items:center; gap:8px; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid var(--gray-200); }
+  .subject-header .subject-name { font-size:1.1rem; font-weight:700; }
+</style>
+</head>
+<body>
+
+<!-- ========== LOGIN PAGE ========== -->
+<div id="login-page">
+  <div class="login-box">
+    <h1><i class="fas fa-graduation-cap"></i> DSE 備考系統</h1>
+    <p class="sub">2026-2027 數學 & 生物備考計劃</p>
+    <div class="role-tabs">
+      <div class="role-tab active" onclick="setRole('teacher')" id="tab-teacher">
+        <i class="fas fa-chalkboard-teacher"></i>
+        教師登入
+      </div>
+      <div class="role-tab" onclick="setRole('student')" id="tab-student">
+        <i class="fas fa-user-graduate"></i>
+        學生登入
+      </div>
+    </div>
+    <div id="teacher-fields">
+      <input type="password" id="teacher-pw" placeholder="輸入教師密碼" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div id="student-fields" class="student-fields">
+      <div class="student-row">
+        <input type="text" id="student-name" placeholder="姓名">
+        <input type="text" id="student-class" placeholder="班別 (如5A)">
+      </div>
+      <input type="password" id="student-pw" placeholder="輸入學生密碼" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> 登入</button>
+    <div class="error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ========== MAIN APP ========== -->
+<div id="app" style="display:none">
+  <!-- Header -->
+  <div class="header">
+    <h1>
+      <i class="fas fa-calculator math-icon"></i> 數學
+      <span style="color:var(--gray-300)">|</span>
+      <i class="fas fa-dna bio-icon"></i> 生物
+      <span style="color:var(--gray-300); font-weight:400; font-size:.9rem; margin-left:4px;">DSE 2027</span>
+    </h1>
+    <div class="user-info">
+      <span class="user-badge" id="user-badge"><i class="fas fa-user"></i> <span id="user-display"></span></span>
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> 登出</button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav" id="main-nav"></div>
+
+  <!-- Content -->
+  <div class="content" id="main-content"></div>
+</div>
+
+<script>
+// ====================================
+// DSE 備考計劃 2026-2027 完整數據
+// 期間: 2026年7月1日 - 2027年3月31日 (共39週)
+// ====================================
+
+// ---- 數學章節資料 ----
+const MATH_CHAPTERS = [
+  { id: "M01", name: "指數與對數", unit: "代數", book: "5A" },
+  { id: "M02", name: "多項式", unit: "代數", book: "5A" },
+  { id: "M03", name: "方程式與恆等式", unit: "代數", book: "5A" },
+  { id: "M04", name: "二項式定理", unit: "代數", book: "5A" },
+  { id: "M05", name: "等差數列與等比數列", unit: "數列", book: "5B" },
+  { id: "M06", name: "不等式", unit: "代數", book: "5B" },
+  { id: "M07", name: "直線與圓", unit: "幾何", book: "5B" },
+  { id: "M08", name: "三角學", unit: "三角學", book: "6A" },
+  { id: "M09", name: "續三角學", unit: "三角學", book: "6A" },
+  { id: "M10", name: "測量學", unit: "幾何", book: "6A" },
+  { id: "M11", name: "概率", unit: "概率與統計", book: "6A" },
+  { id: "M12", name: "統計學", unit: "概率與統計", book: "6A" }
+];
+
+// ---- 生物章節資料 ----
+const BIO_CHAPTERS = [
+  { id: "B01", name: "細胞與生命分子", unit: "細胞與生命分子", book: "Ch.2-5" },
+  { id: "B02", name: "細胞的能量與代謝", unit: "細胞與生命分子", book: "Ch.4-6" },
+  { id: "B03", name: "植物營養與光合作用", unit: "生物與環境", book: "Ch.7-9" },
+  { id: "B04", name: "人體營養", unit: "健康與疾病", book: "Ch.10-11" },
+  { id: "B05", name: "氣體交換與呼吸", unit: "生物與環境", book: "Ch.12-13" },
+  { id: "B06", name: "運輸系統", unit: "生物與環境", book: "Ch.14-15" },
+  { id: "B07", name: "支持與運動", unit: "生物與環境", book: "Ch.16-17" },
+  { id: "B08", name: "偵測與協調（神經）", unit: "生物與環境", book: "Ch.18-19" },
+  { id: "B09", name: "協調與反應（荷爾蒙）", unit: "生物與環境", book: "Ch.19-20" },
+  { id: "B10", name: "恆定性", unit: "生物與環境", book: "Ch.21-22" },
+  { id: "B11", name: "生殖", unit: "遺傳與進化", book: "Ch.23-24" },
+  { id: "B12", name: "遺傳與變異", unit: "遺傳與進化", book: "Ch.26-28" }
+];
+
+// ---- 數學口訣 ----
+const MATH_MNEMONICS = [
+  { id: "MM01", chapter: "M01", title: "指數法則口訣", content: "同底相乘指數加，同底相除指數減；指數為負取倒數，指數為零等於一" },
+  { id: "MM02", chapter: "M01", title: "對數轉換", content: "log(base a) b = ln b / ln a，換底公式要記牢" },
+  { id: "MM03", chapter: "M02", title: "因式分解口訣", content: "一提二套三分組，先看有無公因數；平方差公式 a²−b²，完全平方 (a±b)²" },
+  { id: "MM04", chapter: "M05", title: "等差數列公式", content: "首項 a₁，末項 aₙ，公差 d：aₙ = a₁+(n−1)d，和 Sₙ = n(a₁+aₙ)/2" },
+  { id: "MM05", chapter: "M05", title: "等比數列公式", content: "公比 r≠0：aₙ = a₁×rⁿ⁻¹，和 Sₙ = a₁(1−rⁿ)/(1−r)" },
+  { id: "MM06", chapter: "M07", title: "圓方程式", content: "圓心 (a,b) 半徑 r：(x−a)²+(y−b)²=r²，展開記配方法" },
+  { id: "MM07", chapter: "M08", title: "三角恆等式", content: "sin²θ+cos²θ=1（畢氏），tanθ=sinθ/cosθ，記住單位圓" },
+  { id: "MM08", chapter: "M08", title: "特殊角值", content: "0°(0,1)→(1,0)，30°(1/2,√3/2)，45°(√2/2,√2/2)，60°(√3/2,1/2)，90°(1,0)" },
+  { id: "MM09", chapter: "M10", title: "三維測量", content: "球體面積=4πr²，體積=4/3πr³；圓柱體積=πr²h" },
+  { id: "MM10", chapter: "M11", title: "概率加法", content: "P(A∪B)=P(A)+P(B)−P(A∩B)，互斥事件第二項為零" },
+  { id: "MM11", chapter: "M12", title: "標準差公式", content: "σ=√(Σ(xi−x̄)²/n)，分母是n（母體）還是n−1（樣本）要分清" },
+  { id: "MM12", chapter: "M04", title: "二項式展開", content: "(a+b)ⁿ=ΣC(n,r)aⁿ⁻ʳbʳ，通項 T(r+1)=C(n,r)aⁿ⁻ʳbʳ" }
+];
+
+// ---- 生物口訣 ----
+const BIO_MNEMONICS = [
+  { id: "BM01", chapter: "B01", title: "細胞結構口訣", content: "細胞膜流動鑲嵌，核糖體合成蛋白質，線粒體是能量工廠，葉綠體光合作用" },
+  { id: "BM02", chapter: "B02", title: "酵素特徵", content: "蛋白質本性、專一性、高效性、最適溫度pH、受溫度pH影響" },
+  { id: "BM03", chapter: "B03", title: "光合作用方程", content: "6CO₂+6H₂O→C₆H₁₂O₆+6O₂（光反應+暗反應=卡爾文循環）" },
+  { id: "BM04", chapter: "B04", title: "人體消化系統", content: "口腔→食道→胃→小腸（主要吸收）→大腸→肛門；小腸絨毛增加吸收面積" },
+  { id: "BM05", chapter: "B05", title: "氣體交換", content: "肺泡：單層上皮細胞、大量微血管、大表面積；O₂擴散入血，CO₂擴散出肺" },
+  { id: "BM06", chapter: "B06", title: "雙循環系統", content: "肺循環（右心→肺→左心）+ 體循環（左心→全身→右心）；動脈血含O₂，靜脈血含CO₂" },
+  { id: "BM07", chapter: "B08", title: "反射弧五步", content: "感受器→感覺神經元→中間神經元→運動神經元→效應器；不經大腦=不隨意控制" },
+  { id: "BM08", chapter: "B10", title: "恆定性", content: "血糖調節：胰島素降血糖，昇糖素升血糖；體溫：下視丘為控制中心" },
+  { id: "BM09", chapter: "B11", title: "有絲分裂口訣", content: "前期（染色體凝縮）→中期（排列赤道板）→後期（著絲點分裂）→末期（核膜重組）" },
+  { id: "BM10", chapter: "B12", title: "孟德爾遺傳", content: "分離定律：等位基因分離；自由組合定律：非同源染色體自由組合；9:3:3:1 要記牢" }
+];
+
+// ---- 數學常見問題提醒 ----
+const MATH_COMMON_ERRORS = [
+  { id: "ME01", chapter: "M01", error: "負指數忘記取倒數", tip: "a⁻ⁿ = 1/aⁿ，例如 2⁻³ = 1/8" },
+  { id: "ME02", chapter: "M01", error: "log(A+B) ≠ logA + logB", tip: "log(AB)=logA+logB，但log(A+B)不能拆開" },
+  { id: "ME03", chapter: "M02", error: "(a+b)² ≠ a²+b²", tip: "(a+b)²=a²+2ab+b²，中間有交叉項2ab" },
+  { id: "ME04", chapter: "M03", error: "解方程時忘記檢查增根", tip: "乘以含未知數的式子時，必須檢驗解是否使分母為零" },
+  { id: "ME05", chapter: "M05", error: "等比數列和公式中忘記 r=1 的情況", tip: "r=1時 Sₙ=na₁，不能用 Sₙ=a₁(1−rⁿ)/(1−r)" },
+  { id: "ME06", chapter: "M06", error: "不等式兩邊乘負數忘記變號", tip: "乘以/除以負數時，不等號方向要反轉" },
+  { id: "ME07", chapter: "M08", title: "三角函數定義域忘記", tip: "sinθ值域[-1,1]，cosθ值域[-1,1]，超出範圍無解" },
+  { id: "ME08", chapter: "M10", error: "三維距離計算用錯公式", tip: "兩點距離=√((x₁−x₂)²+(y₁−y₂)²+(z₁−z₂)²)" },
+  { id: "ME09", chapter: "M11", error: "獨立事件與互斥事件混淆", tip: "獨立→P(A∩B)=P(A)P(B)；互斥→P(A∩B)=0，兩者不同" },
+  { id: "ME10", chapter: "M12", error: "分組數據標準差忘記除以總頻數", tip: "平均數=Σf·x/Σf，標準差分母是總頻數n" }
+];
+
+// ---- 生物常見問題提醒 ----
+const BIO_COMMON_ERRORS = [
+  { id: "BE01", chapter: "B01", error: "混淆主動運輸與滲透作用", tip: "主動運輸需要ATP能量，逆濃度梯度；滲透作用是水分子順濃度梯度" },
+  { id: "BE02", chapter: "B02", error: "酵素在高溫後降溫不會恢復活性", tip: "酵素是蛋白質，高溫使蛋白質變性，變性不可逆" },
+  { id: "BE03", chapter: "B03", error: "混淆光反應與暗反應的場所", tip: "光反應在類囊體薄膜，暗反應（卡爾文循環）在基質" },
+  { id: "BE04", chapter: "B05", error: "混淆呼吸作用與氣體交換", tip: "呼吸作用=細胞過程產生ATP；氣體交換=肺泡與血液的O₂/CO₂交換" },
+  { id: "BE05", chapter: "B06", error: "動脈血≠動脈中的血", tip: "動脈血=含氧多的血（肺靜脈也含動脈血）；動脈=從心臟運血離開的血管" },
+  { id: "BE06", chapter: "B08", error: "混淆條件反射與非條件反射", tip: "非條件反射=天生無需學習；條件反射=經學習建立，可消退" },
+  { id: "BE07", chapter: "B10", error: "胰島素和昇糖素搞反", tip: "胰島素→降血糖（促進細胞吸收葡萄糖）；昇糖素→升血糖（促進糖原分解）" },
+  { id: "BE08", chapter: "B11", error: "混淆有絲分裂與減數分裂", tip: "有絲分裂=體細胞分裂，染色體數不變；減數分裂=產生配子，染色體數減半" },
+  { id: "BE09", chapter: "B12", error: "顯性/隱性判斷錯誤", tip: "看F1表現型：全部同一表現型→親代純種；F2出現3:1→單基因顯性" },
+  { id: "BE10", chapter: "B12", error: "伴性遺傳忘記寫基因所在染色體", tip: "X連鎖顯性/隱性要用 XᴬXᵃ 表示，寫清楚是常染色體還是性染色體" }
+];
+
+// ---- 39週完整計劃 ----
+const WEEKLY_PLAN = [
+  // === 階段一：單元章節複習 ===
+  // --- 7月 ---
+  { week: 1, startDate: "2026-07-01", endDate: "2026-07-07", phase: 1, month: "2026-07",
+    math: { chapter: "M01", topic: "指數與對數", resource: "5A冊基礎技巧工作紙+分節工作紙",
+      mcFocus: "指數運算法則、對數性質", sqFocus: "指數方程求解、對數應用題" },
+    bio: { chapter: "B01", topic: "細胞與生命分子", resource: "step0 IT_Ch02~05 + section quiz set1",
+      mcFocus: "細胞結構辨識、生命分子分類", sqFocus: "顯微觀察描述、生命分子檢測實驗" }},
+  { week: 2, startDate: "2026-07-08", endDate: "2026-07-14", phase: 1, month: "2026-07",
+    math: { chapter: "M01", topic: "指數與對數（續）", resource: "每章測驗 CQ_ELM5A",
+      mcFocus: "對數換底、指數方程", sqFocus: "增長衰減應用、對數圖" },
+    bio: { chapter: "B01", topic: "細胞與生命分子（續）", resource: "step1 basic revision + step2 exam-type Ch01-05",
+      mcFocus: "細胞膜運輸機制", sqFocus: "滲透作用實驗設計" }},
+  { week: 3, startDate: "2026-07-15", endDate: "2026-07-21", phase: 1, month: "2026-07",
+    math: { chapter: "M02", topic: "多項式", resource: "5A冊基礎技巧工作紙",
+      mcFocus: "因式分解、多項式運算", sqFocus: "長除法、餘式定理" },
+    bio: { chapter: "B02", topic: "細胞能量與代謝", resource: "step0 IT_Ch06 + quiz set1",
+      mcFocus: "酵素特徵、影響因素", sqFocus: "酵素實驗設計、變數控制" }},
+  { week: 4, startDate: "2026-07-22", endDate: "2026-07-28", phase: 1, month: "2026-07",
+    math: { chapter: "M02", topic: "多項式（續）", resource: "5A冊分節工作紙+每章測驗",
+      mcFocus: "因式分解技巧、代數分式", sqFocus: "多項式恆等式證明" },
+    bio: { chapter: "B02", topic: "細胞能量與代謝（續）", resource: "step1+step2 exam-type Ch04-06",
+      mcFocus: "ATP與細胞呼吸概論", sqFocus: "呼吸作用與光合作用比較" }},
+
+  // --- 8月 ---
+  { week: 5, startDate: "2026-07-29", endDate: "2026-08-04", phase: 1, month: "2026-08",
+    math: { chapter: "M03", topic: "方程式與恆等式", resource: "5A冊基礎技巧+試題庫",
+      mcFocus: "二次方程解法、判別式", sqFocus: "應用題列方程、不等式聯立" },
+    bio: { chapter: "B03", topic: "植物營養與光合作用", resource: "step0 IT_Ch07~09",
+      mcFocus: "光合作用條件、限制因素", sqFocus: "光合作用實驗、氣體檢測" }},
+  { week: 6, startDate: "2026-08-05", endDate: "2026-08-11", phase: 1, month: "2026-08",
+    math: { chapter: "M03", topic: "方程式與恆等式（續）", resource: "每章測驗+試題庫",
+      mcFocus: "恆等式判斷、未知數求法", sqFocus: "較複雜方程應用" },
+    bio: { chapter: "B03", topic: "植物營養與光合作用（續）", resource: "step1+step2 exam-type Ch07-09",
+      mcFocus: "礦物質吸收、蒸騰作用", sqFocus: "卡爾文循環細節" }},
+  { week: 7, startDate: "2026-08-12", endDate: "2026-08-18", phase: 1, month: "2026-08",
+    math: { chapter: "M04", topic: "二項式定理", resource: "5A冊基礎技巧+分節工作紙",
+      mcFocus: "展開式通項、特定項求法", sqFocus: "二項式係數性質、近似值" },
+    bio: { chapter: "B04", topic: "人體營養", resource: "step0 IT_Ch10~11",
+      mcFocus: "消化酶種類及作用位置", sqFocus: "小腸吸收機制、實驗" }},
+  { week: 8, startDate: "2026-08-19", endDate: "2026-08-25", phase: 1, month: "2026-08",
+    math: { chapter: "M05", topic: "等差與等比數列", resource: "5B冊基礎技巧工作紙",
+      mcFocus: "數列通項公式、和的公式", sqFocus: "數列應用題（增長、利息）" },
+    bio: { chapter: "B04", topic: "人體"人體營養（續）", resource: "step1+step2 exam-type Ch10-11",
+      mcFocus: "營養缺乏症、均衡飲食", sqFocus: "消化系統實驗設計" }},
+  { week: 9, startDate: "2026-08-26", endDate: "2026-09-01", phase: 1, month: "2026-08",
+    math: { chapter: "M05", topic: "等差與等比數列（續）", resource: "5B冊分節工作紙+測驗",
+      mcFocus: "混合數列辨別、收斂數列", sqFocus: "複雜數列應用" },
+    bio: { chapter: "B05", topic: "氣體交換與呼吸", resource: "step0 IT_Ch12~13",
+      mcFocus: "呼吸系統結構、氣體交換原理", sqFocus: "呼吸實驗（呼吸管、氫氧化鈣）" }},
+
+  // --- 9月 ---
+  { week: 10, startDate: "2026-09-02", endDate: "2026-09-08", phase: 1, month: "2026-09",
+    math: { chapter: "M06", topic: "不等式", resource: "5B冊基礎技巧+分節工作紙",
+      mcFocus: "一元二次不等式解法", sqFocus: "線性規劃初步、不等式證明" },
+    bio: { chapter: "B05", topic: "氣體交換與呼吸（續）", resource: "step1+step2 exam-type Ch12-13",
+      mcFocus: "人體呼吸vs細胞呼吸", sqFocus: "呼吸作用實驗比較" }},
+  { week: 11, startDate: "2026-09-09", endDate: "2026-09-15", phase: 1, month: "2026-09",
+    math: { chapter: "M07", topic: "直線與圓", resource: "5B冊基礎技巧+分節工作紙",
+      mcFocus: "兩直線關係、圓方程辨識", sqFocus: "圓與直線交點、軌跡題" },
+    bio: { chapter: "B06", topic: "運輸系統", resource: "step0 IT_Ch14~15",
+      mcFocus: "血管種類與特徵", sqFocus: "心臟結構與循環路徑" }},
+  { week: 12, startDate: "2026-09-16", endDate: "2026-09-22", phase: 1, month: "2026-09",
+    math: { chapter: "M07", topic: "直線與圓（續）", resource: "5B冊測驗+試題庫",
+      mcFocus: "圓的切線方程", sqFocus: "坐標幾何綜合題" },
+    bio: { chapter: "B06", topic: "運輸系統（續）", resource: "step1+step2 exam-type Ch14-15",
+      mcFocus: "血液成分與功能", sqFocus: "血型、血壓相關題" }},
+  { week: 13, startDate: "2026-09-23", endDate: "2026-09-29", phase: 1, month: "2026-09",
+    math: { chapter: "M08", topic: "三角學", resource: "6A冊基礎技巧工作紙",
+      mcFocus: "三角恆等式、弧度制", sqFocus: "三角方程求解、恆等式證明" },
+    bio: { chapter: "B07", topic: "支持與運動", resource: "step0 IT_Ch16~17",
+      mcFocus: "骨骼系統、關節類型", sqFocus: "人體運動原理、肌肉收縮" }},
+
+  // --- 10月 ---
+  { week: 14, startDate: "2026-09-30", endDate: "2026-10-06", phase: 1, month: "2026-10",
+    math: { chapter: "M08", topic: "三角學（續）", resource: "6A冊分節工作紙+測驗",
+      mcFocus: "正弦餘弦定理應用", sqFocus: "三角形面積、測量應用" },
+    bio: { chapter: "B08", topic: "偵測與協調（神經系統）", resource: "step0 IT_Ch18~19",
+      mcFocus: "神經元結構、反射弧", sqFocus: "反射弧繪圖、實驗設計" }},
+  { week: 15, startDate: "2026-10-07", endDate: "2026-10-13", phase: 1, month: "2026-10",
+    math: { chapter: "M09", topic: "續三角學", resource: "6A冊基礎技巧+分節工作紙",
+      mcFocus: "三角函數圖像變換", sqFocus: "三角方程解的個數、最大最小值" },
+    bio: { chapter: "B09", topic: "協調與反應（荷爾蒙）", resource: "step0 IT_Ch19~20",
+      mcFocus: "內分泌腺與激素功能", sqFocus: "神經vs內分泌協調比較" }},
+  { week: 16, startDate: "2026-10-14", endDate: "2026-10-20", phase: 1, month: "2026-10",
+    math: { chapter: "M10", topic: "測量學", resource: "6A冊基礎技巧+分節工作紙",
+      mcFocus: "表面積與體積公式", sqFocus: "三維空間計算、組合體" },
+    bio: { chapter: "B10", topic: "恆定性", resource: "step0 IT_Ch21~22",
+      mcFocus: "體溫調節機制", sqFocus: "血糖調節反饋機制" }},
+  { week: 17, startDate: "2026-10-21", endDate: "2026-10-27", phase: 1, month: "2026-10",
+    math: { chapter: "M11", topic: "概率", resource: "6A冊基礎技巧+分節工作紙",
+      mcFocus: "概率基本運算、樹形圖", sqFocus: "條件概率、獨立事件" },
+    bio: { chapter: "B11", topic: "生殖", resource: "step0 IT_Ch23~24",
+      mcFocus: "有絲分裂各期特徵", sqFocus: "有絲分裂vs減數分裂比較" }},
+
+  // === 階段二：跨單元整合 ===
+  // --- 11月 ---
+  { week: 18, startDate: "2026-10-28", endDate: "2026-11-03", phase: 2, month: "2026-11",
+    math: { chapter: "M12", topic: "統計學", resource: "6A冊基礎技巧+分節工作紙",
+      mcFocus: "平均數、中位數、眾數、標準差", sqFocus: "分組數據處理、頻數分佈" },
+    bio: { chapter: "B12", topic: "遺傳與變異", resource: "step0 IT_Ch26~28",
+      mcFocus: "孟德爾遺傳定律", sqFocus: "遺傳圖解繪製、基因型表現型比例" }},
+  { week: 19, startDate: "2026-11-04", endDate: "2026-11-10", phase: 2, month: "2026-11",
+    topic: "數學跨單元整合(一)：代數與數列",
+    math: { chapter: "MX01", topic: "代數與數列整合", resource: "試題庫+超级題庫 4A/5A/5B",
+      mcFocus: "指數對數+數列+多項式綜合", sqFocus: "跨章節應用題" },
+    bio: { chapter: "BX01", topic: "細胞與能量整合", resource: "跨課練習 Cross Topic Ex I",
+      mcFocus: "細胞結構+酵素+呼吸", sqFocus: "跨章節綜合題" }},
+  { week: 20, startDate: "2026-11-11", endDate: "2026-11-17", phase: 2, month: "2026-11",
+    topic: "數學跨單元整合(二)：幾何與三角",
+    math: { chapter: "MX02", topic: "幾何與三角整合", resource: "超级題庫 5B/6A",
+      mcFocus: "坐標幾何+三角學+測量學", sqFocus: "綜合幾何證明與計算" },
+    bio: { chapter: "BX02", topic: "人體系統整合", resource: "跨課練習 Cross Topic Ex II-III",
+      mcFocus: "營養+氣體交換+運輸", sqFocus: "人體各系統協作綜合題" }},
+  { week: 21, startDate: "2026-11-18", endDate: "2026-11-24", phase: 2, month: "2026-11",
+    topic: "數學跨單元整合(三)：概率與統計",
+    math: { chapter: "MX03", topic: "概率與統計整合", resource: "超级題庫 6A+數學教輔",
+      mcFocus: "概率+統計+數據分析綜合", sqFocus: "資料處理與解釋題" },
+    bio: { chapter: "BX03", topic: "神經與協調整合", resource: "跨課練習 Cross Topic Ex IV",
+      mcFocus: "神經+荷爾蒙+恆定性", sqFocus: "協調機制比較綜合題" }},
+  { week: 22, startDate: "2026-11-25", endDate: "2026-12-01", phase: 2, month: "2026-11",
+    topic: "生物跨單元整合(一)：遺傳與生殖",
+    math: { chapter: "MX04", topic: "全卷綜合訓練(一)", resource: "数学真题 BY TOPIC",
+      mcFocus: "選擇題：混合各章重點", sqFocus: "結構題：代數+幾何綜合" },
+    bio: { chapter: "BX04", topic: "遺傳與生殖整合", resource: "跨課練習 Cross Topic Ex V",
+      mcFocus: "有絲分裂+減數分裂+遺傳", sqFocus: "遺傳概率計算、系譜圖分析" }},
+
+  // --- 12月 ---
+  { week: 23, startDate: "2026-12-02", endDate: "2026-12-08", phase: 2, month: "2026-12",
+    topic: "生物跨單元整合(二)：環境與人體",
+    math: { chapter: "MX05", topic: "全卷綜合訓練(二)", resource: "试题库 5A-6A",
+      mcFocus: "選擇題：歷屆常考題型", sqFocus: "結構題：三角學+概率綜合" },
+    bio: { chapter: "BX05", topic: "環境與生物系統整合", resource: "跨課練習 Cross Topic Ex VI",
+      mcFocus: "光合+呼吸+運輸+環境", sqFocus: "生態系統綜合分析" }},
+  { week: 24, startDate: "2026-12-09", endDate: "2026-12-15", phase: 2, month: "2026-12",
+    topic: "數學全卷模擬(一) + 生物跨單元(三)",
+    math: { chapter: "MX06", topic: "Paper 1 模擬訓練", resource: "模擬試卷+真题 2012-2020",
+      mcFocus: "Paper 1 Section A+B 練習", sqFocus: "Paper 1 Section C 練習" },
+    bio: { chapter: "BX06", topic: "全卷綜合訓練", resource: "step2 跨課練習+ESSAY",
+      mcFocus: "混合各單元選擇題", sqFocus: "長題目作答訓練" }},
+  { week: 25, startDate: "2026-12-16", endDate: "2026-12-22", phase: 2, month: "2026-12",
+    topic: "模擬考(一)：數學Paper 2 + 生物Paper 1A",
+    math: { chapter: "MT01", topic: "Paper 2 模擬", resource: "模擬試卷 Paper 2",
+      mcFocus: "Paper 2 全卷限時練習", sqFocus: "選擇題策略與速解技巧" },
+    bio: { chapter: "BT01", topic: "Paper 1A 模擬", resource: "step3 mock series",
+      mcFocus: "Paper 1A（選擇題）模擬", sqFocus: "限时45分鐘完成" }},
+  { week: 26, startDate: "2026-12-23", endDate: "2026-12-29", phase: 2, month: "2026-12",
+    topic: "聖誕假溫習週",
+    math: { chapter: "MR01", topic: "薄弱單元補強", resource: "根據前25週表現選擇",
+      mcFocus: "個人化弱項選擇題", sqFocus: "個人化弱項結構題" },
+    bio: { chapter: "BR01", topic: "薄弱單元補強", resource: "根據前25週表現選擇",
+      mcFocus: "個人化弱項選擇題", sqFocus: "個人化弱項結構題" }},
+
+  // --- 1月 ---
+  { week: 27, startDate: "2026-12-30", endDate: "2027-01-05", phase: 2, month: "2027-01",
+    topic: "數學全卷模擬(二) + 生物全卷模擬(一)",
+    math: { chapter: "MT02", topic: "Paper 1 全卷訓練", resource: "模擬試卷+真题",
+      mcFocus: "限時2小時15分完成Paper 1", sqFocus: "時間分配策略" },
+    bio: { chapter: "BT02", topic: "Paper 1B 模擬", resource: "step3 mock series",
+      mcFocus: "Paper 1B（結構題）模擬", sqFocus: "限時1小時45分完成" }},
+  { week: 28, startDate: "2027-01-06", endDate: "2027-01-12", phase: 2, month: "2027-01",
+    topic: "模擬考(二)：數學全卷 + 生物Paper 2",
+    math: { chapter: "MT03", topic: "全卷模擬訓練", resource: "2015-2019 DSE真题",
+      mcFocus: "Paper 2 選擇題模擬", sqFocus: "Paper 1 結構題模擬" },
+    bio: { chapter: "BT03", topic: "Paper 2 模擬", resource: "step3 mock series+ESSAY",
+      mcFocus: "Paper 2（長題目）模擬", sqFocus: "限時1小時完成" }},
+  { week: 29, startDate: "2027-01-13", endDate: "2027-01-19", phase: 2, month: "2027-01",
+    topic: "模擬考(三)：數學+生物全卷",
+    math: { chapter: "MT04", topic: "全卷模擬", resource: "2020-2022 DSE真题",
+      mcFocus: "Paper 1+2 限時模擬", sqFocus: "答題策略與檢查技巧" },
+    bio: { chapter: "BT04", topic: "全卷模擬", resource: "mock series 2 set 1-3",
+      mcFocus: "Paper 1A+1B 限時模擬", sqFocus: "答題組織與時間管理" }},
+  { week: 30, startDate: "2027-01-20", endDate: "2027-01-26", phase: 2, month: "2027-01",
+    topic: "模擬考(四)：數學+生物全卷",
+    math: { chapter: "MT05", topic: "全卷模擬", resource: "2023-2024 DSE真题",
+      mcFocus: "全卷限時訓練", sqFocus: "難題突破策略" },
+    bio: { chapter: "BT05", topic: "全卷模擬", resource: "mock series 2 set 4-5",
+      mcFocus: "全卷限時訓練", sqFocus: "ESSAY題作答策略" }},
+
+  // === 階段三：模擬考衝刺 ===
+  // --- 2月 ---
+  { week: 31, startDate: "2027-01-27", endDate: "2027-02-02", phase: 3, month: "2027-02",
+    topic: "衝刺模擬(一)：數學+生物",
+    math: { chapter: "FS01", topic: "衝刺模擬考", resource: "2024-2025 DSE真题",
+      mcFocus: "Paper 2 模擬考", sqFocus: "Paper 1 模擬考" },
+    bio: { chapter: "FB01", topic: "衝刺模擬考", resource: "2024-2025 DSE真题",
+      mcFocus: "Paper 1A 模擬考", sqFocus: "Paper 1B+2 模擬考" }},
+  { week: 32, startDate: "2027-02-03", endDate: "2027-02-09", phase: 3, month: "2027-02",
+    topic: "衝刺模擬(二)：數學+生物",
+    math: { chapter: "FS02", topic: "衝刺模擬考", resource: "模擬試卷 教育出版社+學友社",
+      mcFocus: "Mock Paper 2", sqFocus: "Mock Paper 1" },
+    bio: { chapter: "FB02", topic: "衝刺模擬考", resource: "mock series 2 set 6-7",
+      mcFocus: "Mock Paper 1A", sqFocus: "Mock Paper 1B+2" }},
+  { week: 33, startDate: "2027-02-10", endDate: "2027-02-16", phase: 3, month: "2027-02",
+    topic: "農曆新年假溫習",
+    math: { chapter: "FR01", topic: "錯題重做+弱項補強", resource: "個人錯題本",
+      mcFocus: "歷"歷屆MC錯題重做", sqFocus: "歷屆SQ弱項加強" },
+    bio: { chapter: "FR01", topic: "錯題重做+弱項補強", resource: "個人錯題本",
+      mcFocus: "歷"歷屆MC錯題重做", sqFocus: "歷屆SQ弱項加強" }},
+  { week: 34, startDate: "2027-02-17", endDate: "2027-02-23", phase: 3, month: "2027-02",
+    topic: "衝刺模擬(三)：數學+生物",
+    math: { chapter: "FS03", topic: "衝刺模擬考", resource: "2019-2021 DSE真题",
+      mcFocus: "Paper 2 速解訓練", sqFocus: "Paper 1 速解訓練" },
+    bio: { chapter: "FB03", topic: "衝刺模擬考", resource: "mock series 2 set 8",
+      mcFocus: "Paper 1A 速解訓練", sqFocus: "Paper 1B+2 速解訓練" }},
+  { week: 35, startDate: "2027-02-24", endDate: "2027-03-02", phase: 3, month: "2027-02",
+    topic: "衝刺模擬(四)：數學+生物",
+    math: { chapter: "FS04", topic: "衝刺模擬考", resource: "2022-2023 DSE真题",
+      mcFocus: "全卷模擬+時間管理", sqFocus: "難題突破+檢查" },
+    bio: { chapter: "FB04", topic: "衝刺模擬考", resource: "真題 by topic 總復習",
+      mcFocus: "各單元MC重點回顧", sqFocus: "各單元SQ重點回顧" }},
+
+  // --- 3月 ---
+  { week: 36, startDate: "2027-03-03", endDate: "2027-03-09", phase: 3, month: "2027-03",
+    topic: "最終衝刺(一)：數學+生物",
+    math: { chapter: "FF01", topic: "最終模擬考", resource: "2025 DSE真题",
+      mcFocus: "Paper 2 最終模擬", sqFocus: "Paper 1 最終模擬" },
+    bio: { chapter: "FF01", topic: "最終模擬考", resource: "2025 DSE真题+sample with marking",
+      mcFocus: "Paper 1A 最終模擬", sqFocus: "Paper 1B+2 最終模擬" }},
+  { week: 37, startDate: "2027-03-10", endDate: "2027-03-16", phase: 3, month: "2027-03",
+    topic: "最終衝刺(二)：答題技巧+應試策略",
+    math: { chapter: "FF02", topic: "應試策略訓練", resource: "舉1反5+数学王",
+      mcFocus: "必操題型速解", sqFocus: "高分題型拆解" },
+    bio: { chapter: "FF02", topic: "應試策略訓練", resource: "HKDSE應試錦囊+技巧提升教材",
+      mcFocus: "拆解熱門MC題", sqFocus: "拆解熱門SQ+ESSAY技巧" }},
+  { week: 38, startDate: "2027-03-17", endDate: "2027-03-23", phase: 3, month: "2027-03",
+    topic: "最終衝刺(三)：全科模擬+錯題總複習",
+    math: { chapter: "FF03", topic: "全科總複習", resource: "錯題本+重點歸納",
+      mcFocus: "全卷最後練習", sqFocus: "重點公式+口訣總複習" },
+    bio: { chapter: "FF03", topic: "全科總複習", resource: "Bio Notes by Lyann+錯題本",
+      mcFocus: "全卷最後練習", sqFocus: "重點概念+口訣總複習" }},
+  { week: 39, startDate: "2027-03-24", endDate: "2027-03-31", phase: 3, month: "2027-03",
+    topic: "考前最終準備：心態調整+輕鬆複習",
+    math: { chapter: "FF04", topic: "考前輕鬆複習", resource: "錯題本+筆記",
+      mcFocus: "只看筆記和口訣", sqFocus: "必操題型快速過一遍" },
+    bio: { chapter: "FF04", topic: "考前輕鬆複習", resource: "Bio Notes+應試錦囊",
+      mcFocus: "只看筆記和口訣", sqFocus: "ESSAY框架快速回顧" }}
+];
+
+// ---- 月度考試安排 ----
+const MONTHLY_EXAMS = [
+  { month: "2026-07", period: "7月", subjects: [
+    { subject: "math", name: "數學月考一", chapters: ["M01","M02"], resource: "试题库 QB_ELM5A", time: "60分鐘" },
+    { subject: "bio", name: "生物月考一", chapters: ["B01","B02"], resource: "step2 exam-type set1 Ch01-06", time: "60分鐘" }
+  ]},
+  { month: "2026-08", period: "8月", subjects: [
+    { subject: "math", name: "數學月考二", chapters: ["M03","M04","M05"], resource: "试题库 QB_ELM5A+5B", time: "75分鐘" },
+    { subject: "bio", name: "生物月考二", chapters: ["B03","B04","B05"], resource: "step2 exam-type set1 Ch07-13", time: "75分鐘" }
+  ]},
+  { month: "2026-09", period: "9月", subjects: [
+    { subject: "math", name: "數學月考三", chapters: ["M06","M07","M08","M09"], resource: "试题库 QB_ELM5B+6A", time: "90分鐘" },
+    { subject: "bio", name: "生物月考三", chapters: ["B06","B07","B08","B09"], resource: "step2 exam-type set1 Ch14-20", time: "90分鐘" }
+  ]},
+  { month: "2026-10", period: "10月", subjects: [
+    { subject: "math", name: "數學月考四", chapters: ["M10","M11","M12"], resource: "试题库 QB_ELM6A+超级題庫", time: "75分鐘" },
+    { subject: "bio", name: "生物月考四", chapters: ["B10","B11","B12"], resource: "step2 exam-type set1 Ch21-28", time: "75分鐘" }
+  ]},
+  { month: "2026-11", period: "11月", subjects: [
+    { subject: "math", name: "數學期中考", chapters: "M01-M12 跨單元", resource: "模擬試卷 第一套", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物期中考", chapters: "B01-B12 跨單元", resource: "跨課練習綜合+ESSAY", time: "3小時(P1)+1小時(P2)" }
+  ]},
+  { month: "2026-12", period: "12月", subjects: [
+    { subject: "math", name: "數學期末考", chapters: "全卷模擬", resource: "模擬試卷 第二套", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物期末考", chapters: "全卷模擬", resource: "mock series 2", time: "3小時(P1)+1小時(P2)" }
+  ]},
+  { month: "2027-01", period: "1月", subjects: [
+    { subject: "math", name: "數學模擬DSE(一)", chapters: "全卷", resource: "DSE真题 2020-2022", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物模擬DSE(一)", chapters: "全卷", resource: "DSE真题 2020-2022", time: "3小時(P1)+1小時(P2)" }
+  ]},
+  { month: "2027-02", period: "2月", subjects: [
+    { subject: "math", name: "數學模擬DSE(二)", chapters: "全卷", resource: "模擬試卷 第三套", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物模擬DSE(二)", chapters: "全卷", resource: "mock series 2 晚期套", time: "3小時(P1)+1小時(P2)" }
+  ]},
+  { month: "2027-03", period: "3月", subjects: [
+    { subject: "math", name: "數學最終模擬", chapters: "全卷", resource: "DSE真题 2024-2025", time: "2小時15分(P1)+1小時15分(P2)" },
+    { subject: "bio", name: "生物最終模擬", chapters: "全卷", resource: "DSE真题 2024-2025", time: "3小時(P1)+1小時(P2)" }
+  ]}
+];
+
+// ---- 樣本選擇題（數學） ----
+const MATH_MC_BANK = [
+  { id: "MMC01", week: 1, chapter: "M01", q: "化簡 2³ × 2⁵ = ?", options: ["2⁸","2¹⁵","4⁸","4¹⁵"], answer: 0, explanation: "同底數相乘，指數相加：2³ × 2⁵ = 2⁽³⁺⁵⁾ = 2⁸" },
+  { id: "MMC02", week: 1, chapter: "M01", q: "若 log₁₀ 100 = x，則 x = ?", options: ["1","2","10","100"], answer: 1, explanation: "log₁₀ 100 = log₁₀ 10² = 2" },
+  { id: "MMC03", week: 1, chapter: "M01", q: "化簡 (3²)³ = ?", options: ["3⁵","3⁶","9⁵","9⁶"], answer: 1, explanation: "(aᵐ)ⁿ = aᵐⁿ，所以 (3²)³ = 3⁶" },
+  { id: "MMC04", week: 2, chapter: "M01", q: "若 3ˣ = 81，則 x = ?", options: ["2","3","4","5"], answer: 2, explanation: "81 = 3⁴，所以 x = 4" },
+  { id: "MMC05", week: 2, chapter: "M01", q: "log₂ 8 + log₂ 4 = ?", options: ["log₂ 12","log₂ 32","5","6"], answer: 2, explanation: "log₂ 8 = 3, log₂ 4 = 2，3 + 2 = 5" },
+  { id: "MMC06", week: 3, chapter: "M02", q: "因式分解 x² − 9 = ?", options: ["(x−3)²","(x+3)²","(x−3)(x+3)","(x−9)(x+1)"], answer: 2, explanation: "平方差公式：a²−b² = (a−b)(a+b)" },
+  { id: "MMC07", week: 3, chapter: "M02", q: "若 x+2 是 x²+5x+6 的因式，另一因式是？", options: ["x+1","x+2","x+3","x+6"], answer: 2, explanation: "x²+5x+6 = (x+2)(x+3)" },
+  { id: "MMC08", week: 4, chapter: "M02", q: "多項式 f(x) = x³−2x²+x−3 除以 (x−1) 的餘數是？", options: ["0","1","−1","−3"], answer: 3, explanation: "餘式定理：f(1) = 1−2+1−3 = −3" },
+  { id: "MMC09", week: 5, chapter: "M03", q: "方程 x²−5x+6=0 的兩根之和是？", options: ["2","3","5","6"], answer: 2, explanation: "二次方程 ax²+bx+c=0，兩根之和 = −b/a = 5" },
+  { id: "MMC10", week: 5, chapter: "M03", q: "若 x²+4x+k=0 只有一個實根，k=？", options: ["2","3","4","5"], answer: 2, explanation: "判別式 Δ=0：16−4k=0 → k=4" },
+  { id: "MMC11", week: 6, chapter: "M03", q: "不等式 x²−3x−4<0 的解集是？", options: ["x<−1 或 x>4","−1<x<4","x<−4 或 x>1","−4<x<1"], answer: 1, explanation: "因式分解 (x−4)(x+1)<0，解集為 −1<x<4" },
+  { id: "MMC12", week: 7, chapter: "M04", q: "(x+1)⁵ 展開式中 x³ 的係數是？", options: ["5","10","15","20"], answer: 1, explanation: "通項 T(r+1)=C(5,r)x⁵⁻ʳ，x³ 項 r=2，係數 C(5,2)=10" },
+  { id: "MMC13", week: 8, chapter: "M05", q: "等差數列 3, 7, 11, 15, ... 的第10項是？", options: ["37","39","41","43"], answer: 1, explanation: "a₁=3, d=4, a₁₀=3+9×4=39" },
+  { id: "MMC14", week: 8, chapter: "M05", q: "等比數列 2, 6, 18, ... 的前5項和是？", options: ["120","162","242","243"], answer: 2, explanation: "a=2, r=3, S₅=2(3⁵−1)/(3−1)=2×121=242" },
+  { id: "MMC15", week: 9, chapter: "M05", q: "若等比數列的首項為3，公比為2，則第6項是？", options: ["48","64","96","128"], answer: 2, explanation: "a₆ = 3×2⁵ = 96" },
+  { id: "MMC16", week: 10, chapter: "M06", q: "不等式 2x−1 > 3 的解集是？", options: ["x > 1","x > 2","x < 1","x < 2"], answer: 1, explanation: "2x > 4，x > 2" },
+  { id: "MMC17", week: 11, chapter: "M07", q: "直線 2x+y−6=0 的 y 截距是？", options: ["2","3","6","−6"], answer: 1, explanation: "y截距：令x=0，y=6" },
+  { id: "MMC18", week: 11, chapter: "M07", q: "圓 x²+y²−4x+6y=0 的圓心坐標是？", options: ["(2,−3)","(−2,3)","(4,−6)","(−4,6)"], answer: 0, explanation: "配方法：(x−2)²+(y+3)²=13，圓心(2,−3)" },
+  { id: "MMC19", week: 12, chapter: "M07", q: "兩條直線 2x+y=3 和 4x+2y=6 的關係是？", options: ["平行","相交","重合","垂直"], answer: 2, explanation: "第二條方程兩邊除以2得到第一條，兩者重合" },
+  { id: "MMC20", week: 13, chapter: "M08", q: "sin 30° = ?", options: ["0","1/2","√2/2","√3/2"], answer: 1, explanation: "特殊角值：sin 30° = 1/2" },
+  { id: "MMC21", week: 13, chapter: "M08", q: "若 sin θ = 3/5 且 θ 為銳角，則 cos θ = ?", options: ["3/5","4/5","5/3","5/4"], answer: 1, explanation: "sin²θ+cos²θ=1，cosθ=√(1−9/25)=4/5" },
+  { id: "MMC22", week: 14, chapter: "M08", q: "弧度 2π/3 等於多少度？", options: ["60°","90°","120°","150°"], answer: 2, explanation: "2π/3 × (180/π) = 120°" },
+  { id: "MMC23", week: 14, chapter: "M08", q: "在 △ABC 中，a=5, b=7, C=60°，c=？", options: ["√34","√39","√59","√74"], answer: 2, explanation: "c²=25+49−2×5×7×cos60°=84−35=49... 不對，c²=25+49−2(5)(7)(0.5)=74−35=39，c=√39" },
+  { id: "MMC24", week: 15, chapter: "M09", q: "函數 y=sin(x−π/6) 的圖像是 y=sinx 向？", options: ["左移π/6","右移π/6","上移π/6","下移π/6"], answer: 1, explanation: "y=sin(x−k) 為 y=sinx 向右平移 k 單位" },
+  { id: "MMC25", week: 16, chapter: "M10", q: "半徑為3的球體體積是？", options: ["4π","12π","36π","108π"], answer: 2, explanation: "V=4/3πr³=4/3π(27)=36π" },
+  { id: "MMC26", week: 17, chapter: "M11", q: "擲兩枚均勻骰子，點數之和為7的概率是？", options: ["1/6","1/12","5/36","7/36"], answer: 0, explanation: "共6種組合(1,6)(2,5)(3,4)(4,3)(5,2)(6,1)，P=6/36=1/6" },
+  { id: "MMC27", week: 18, chapter: "M12", q: "數據 2, 4, 4, 6, 8 的中位數是？", options: ["2","4","6","8"], answer: 1, explanation: "排序後中間值為第3個數=4" },
+  { id: "MMC28", week: 18, chapter: "M12", q: "數據 3, 5, 7, 9 的標準差約為？", options: ["2.0","2.2","2.5","3.0"], answer: 1, explanation: "平均=6，方差=[(9+1+1+9)/4]=5，σ=√5≈2.24" }
+];
+
+// ---- 樣本選擇題（生物） ----
+const BIO_MC_BANK = [
+  { id: "BMC01", week: 1, chapter: "B01", q: "下列哪個是原核細胞的特徵？", options: ["有核膜","有線粒體","無真正的細胞核","有葉綠體"], answer: 2, explanation: "原核細胞（如細菌）沒有由核膜包圍的真正細胞核" },
+  { id: "BMC02", week: 1, chapter: "B01", q: "DNA屬於哪類生命分子？", options: ["碳水化合物","脂質","蛋白質","核酸"], answer: 3, explanation: "DNA（去氧核糖核酸）屬於核酸" },
+  { id: "BMC03", week: 2, chapter: "B01", q: "以下哪項是細胞膜的功能？", options: ["合成蛋白質","控制物質進出","產生能量","儲存遺傳物質"], answer: 1, explanation: "細胞膜是選擇性透膜，控制物質進出細胞" },
+  { id: "BMC04", week: 3, chapter: "B02", q: "下列哪項不影響酵素活性？", options: ["溫度","pH值","酵素濃度（底物充足時）","底物顏色"], answer: 3, explanation: "底物顏色不影響酵素與底物的結合" },
+  { id: "BMC05", week: 3, chapter: "B02", q: "人體多數酵素的最適溫度約為？", options: ["20°C","37°C","50°C","100°C"], answer: 1, explanation: "人體酵素最適溫度約為體溫37°C" },
+  { id: "BMC06", week: 4, chapter: "B02", q: "高溫使酵素失去活性的原因是？", options: ["底物被分解","酵素被水解","酵素蛋白質變性","輔酶被破壞"], answer: 2, explanation: "高溫使酵素（蛋白質）的三維結構改變，即變性，失去活性且不可逆" },
+  { id: "BMC07", week: 5, chapter: "B03", q: "光合作用的暗反應（卡爾文循環）在哪裡進行？", options: ["類囊體薄膜","基質","細胞質","線粒體"], answer: 1, explanation: "卡爾文循環在葉綠體基質中進行" },
+  { id: "BMC08", week: 6, chapter: "B03", q: "植物缺鎂會出現什麼現象？", options: ["根腐爛","葉片變黃","莎變軟","花不開"], answer: 1, explanation: "鎂是葉綠素的成分，缺鎂使葉綠素合成受阻，葉片變黃" },
+  { id: "BMC09", week: 7, chapter: "B04", q: "人體最主要的消化和吸收器官是？", options: ["胃","小腸","大腸","肝臟"], answer: 1, explanation: "小腸有絨毛增大表面積，是主要消化吸收場所" },
+  { id: "BMC10", week: 8, chapter: "B04", q: "膽汁的作用是？", options: ["分解蛋白質","乳化脂肪","分解碳水化合物","殺菌"], answer: 1, explanation: "膽汁將大脂肪滴乳化成小脂肪滴，增大表面積，利於脂肪酶作用" },
+  { id: "BMC11", week: 9, chapter: "B05", q: "肺泡與血液之間的氣體交換主要靠什麼方式？", options: ["主動運輸","擴散作用","滲透作用","吞噬作用"], answer: 1, explanation: "O₂和CO₂沿濃度梯度通過擴散作用交換" },
+  { id: "BMC12", week: 10, chapter: "B05", q: "人體細胞呼吸的最终產物是？", options: ["CO₂和H₂O","C₆H₁₂O₆和O₂","乙醇和CO₂","乳酸"], answer: 0, explanation: "有氧呼吸：C₆H₁₂O₆+6O₂→6CO₂+6H₂O+ATP" },
+  { id: "BMC13", week: 11, chapter: "B06", q: "肺循環中，血液從哪裡流向哪裡？", options: ["左心室→全身","右心室→肺→左心房","左心房→左心室","全身→右心房"], answer: 1, explanation: "肺循環：右心室→肺動脈→肺部→肺靜脈→左心房" },
+  { id: "BMC14", week: 12, chapter: "B06", q: "以下哪種血管壁最薄？", options: ["動脈","靜脈","微血管","毛細淋巴管"], answer: 2, explanation: "微血管壁只有一層細胞，利於物質交換" },
+  { id: "BMC15", week: 13, chapter: "B07", q: "人體骨骼肌的收縮特徵是？", options: ["可以自動收縮","受意志控制","不受神經支配","只收縮不舒張"], answer: 1, explanation: "骨骼肌為隨意肌，受意識控制和運動神經支配" },
+  { id: "BMC16", week: 14, chapter: "B08", q: "反射弧的正確順序是？", options: ["效應器→感覺神經元→中間神經元→運動神經元→感受器","感受器→感覺神經元→中間神經元→運動神經元→效應器","感受器→運動神經元→中間神經元→感覺神經元→效應器","中間神經元→感覺神經元→感受器→效應器→運動神經元"], answer: 1, explanation: "反射弧五步：感受器→感覺神經元→中間神經元→運動神經元→效應器" },
+  { id: "BMC17", week: 15, chapter: "B09", q: "胰島素由哪個器官分泌？", options: ["腎上腺","甲狀腺","胰臟","垂體"], answer: 2, explanation: "胰島素由胰臟中的胰島（β細胞）分泌" },
+  { id: "BMC18", week: 15, chapter: "B09", q: "以下哪種激素激素稱為「壓力激素」？", options: ["胰島素","腎上腺素","甲狀腺素","生長激素"], answer: 1, explanation: "腎上腺素在壓力或緊急情況下分泌，稱為壓力激素" },
+  { id: "BMC19", week: 16, chapter: "B10", q: "血糖濃度過高時，哪個激素分泌增加？", options: ["昇糖素","胰島素","腎上腺素","甲狀腺素"], answer: 1, explanation: "血糖過高→胰島素分泌增加→促進細胞吸收葡萄糖→降低血糖" },
+  { id: "BMC20", week: 17, chapter: "B11", q: "有絲分裂中期，染色體排列在什麼位置？", options: ["細胞兩極","細胞膜上","赤道板上","中心體附近"], answer: 2, explanation: "有絲分裂中期，所有染色體排列在細胞赤道板上" },
+  { id: "BMC21", week: 18, chapter: "B12", q: "一對等位基因的雜合體自交，F2的表現型比例是？", options: ["1:1","3:1","1:2:1","9:3:3:1"], answer: 1, explanation: "Aa × Aa → AA:Aa:aa = 1:2:1，表現型比 3:1（顯性:隱性）" },
+  { id: "BMC22", week: 18, chapter: "B12", q: "血友病是什麼類型的遺傳？", options: ["常染色體顯性","常染色體隱性","X連鎖隱性","Y連鎖顯性"], answer: 2, explanation: "血友病為X連鎖隱性遺傳，男性发病率高於女性" },
+  { id: "BMC23", week: 19, chapter: "BX01", q: "下列哪個細胞器同時存在於植物和動物細胞？", options: ["葉綠體","細胞壁","線粒體","液泡（大）"], answer: 2, explanation: "線粒體是兩者共有的，進行有氧呼吸產生ATP" },
+  { id: "BMC24", week: 20, chapter: "BX02", q: "紅血球在肺部獲得O₂並釋放CO₂，這過程依賴？", options: ["主動運輸","濃度梯度擴散","滲透作用","內吞作用"], answer: 1, explanation: "肺部O₂濃度高，CO₂濃度低，氣體順濃度梯度擴散" }
+];
+
+// ---- 樣本結構題（數學） ----
+const MATH_SQ_BANK = [
+  { id: "MSQ01", week: 1, chapter: "M01", q: "解方程：2ˣ⁺¹ = 32", answer: "2ˣ⁺¹ = 2⁵\nx+1 = 5\nx = 4", marks: 3 },
+  { id: "MSQ02", week: 1, chapter: "M01", q: "化簡：log₂ 8 + log₂ 4 − log₂ 16", answer: "= log₂(8×4/16) = log₂ 2 = 1", marks: 3 },
+  { id: "MSQ03", week: 2, chapter: "M01", q: "若 log₃ x = 2，求 x 的值。", answer: "log₃ x = 2 → x = 3² = 9", marks: 2 },
+  { id: "MSQ04", week: 3, chapter: "M02", q: "因式分解：2x² − 8", answer: "= 2(x² − 4) = 2(x−2)(x+2)", marks: 2 },
+  { id: "MSQ05", week: 3, chapter: "M02", q: "因式分解：x² + 6x + 9", answer: "= (x+3)²", marks: 2 },
+  { id: "MSQ06", week: 4, chapter: "M02", q: "求 f(x) = 2x³ − 3x² + x − 1 除以 (x−1) 的餘數。", answer: "由餘式定理：f(1) = 2−3+1−1 = −1，餘數為 −1", marks: 3 },
+  { id: "MSQ07", week: 5, chapter: "M03", q: "解方程：x² − 5x + 6 = 0", answer: "(x−2)(x−3)=0\nx = 2 或 x = 3", marks: 3 },
+  { id: "MSQ08", week: 6, chapter: "M03", q: "求二次函數 y = x² − 4x + 3 的頂點坐標。", answer: "y = (x−2)² − 1\n頂點坐標 = (2, −1)", marks: 3 },
+  { id: "MSQ09", week: 7, chapter: "M04", q: "求 (1+x)⁴ 展開式中 x³ 的係數。", answer: "T(r+1) = C(4,r)xʳ\nx³項 r=3，係數 C(4,3) = 4", marks: 3 },
+  { id: "MSQ10", week: 8, chapter: "M05", q: "一等差數列首項為5，公差為3，求前20項的和。", answer: "a₂₀ = 5 + 19×3 = 62\nS₂₀ = 20(5+62)/2 = 670", marks: 4 },
+  { id: "MSQ11", week: 10, chapter: "M06", q: "解不等式：x² − 2x − 3 > 0", answer: "(x−3)(x+1)>0\nx < −1 或 x > 3", marks: 3 },
+  { id: "MSQ12", week: 11, chapter: "M07", q: "求過點 (1,2) 且斜率為 3 的直線方程。", answer: "y−2 = 3(x−1)\ny = 3x − 1", marks: 3 },
+  { id: "MSQ13", week: 13, chapter: "M08", q: "在△ABC中，a=8, b=6, ∠C=60°，求c的值。", answer: "c² = a²+b²−2ab·cosC\n= 64+36−2(8)(6)(1/2)\n= 100−48 = 52\nc = √52 = 2√13", marks: 4 },
+  { id: "MSQ14", week: 16, chapter: "M10", q: "一個圓柱體底面半徑為5cm，高為12cm，求其體積（以π表示）。", answer: "V = πr²h = π(5²)(12) = 300π cm³", marks: 3 },
+  { id: "MSQ15", week: 17, chapter: "M11", q: "擲一枚均勻硬幣3次，求恰好出現2次正面的概率。", answer: "C(3,2) × (1/2)³ = 3 × 1/8 = 3/8", marks: 3 },
+  { id: "MSQ16", week: 18, chapter: "M12", q: "求數據 4, 6, 8, 10, 12 的標準差（答案保留一位小數）。", answer: "平均 = (4+6+8+10+12)/5 = 8\n方差 = [(16+4+0+4+16)/5] = 40/5 = 8\nσ = √8 ≈ 2.8", marks: 4 }
+];
+
+// ---- 樣本結構題（生物） ----
+const BIO_SQ_BANK = [
+  { id: "BSQ01", week: 1, chapter: "B01", q: "比較動物細胞和植物細胞的結構差異（至少3點）。", answer: "1. 植物細胞有細胞壁，動物細胞沒有\n2. 植物細胞有大液泡，動物細胞只有小液泡\n3. 植物細胞有葉綠體，動物細胞沒有", marks: 3 },
+  { id: "BSQ02", week: 2, chapter: "B01", q: "解釋為什麼細胞膜的結構被描述為「流動鑲嵌模型」。", answer: "磷脂分子和蛋白質可以側向移動（流動性），蛋白質鑲嵌在磷脂雙分子層中（鑲嵌），所以稱為流動鑲嵌模型。", marks: 3 },
+  { id: "BSQ03", week: 3, chapter: "B02", q: "設計一個實驗來測試溫度對酵素活性的影響。", answer: "步驟：\n1. 準備5支試管，各加等量澱粉溶液和唾液\n2. 分別放入5°C、25°C、37°C、60°C、100°C水浴\n3. 一定時間後加碘液測試澱粉剩餘量\n4. 37°C試管顏色最淺（最適溫度，活性最高）\n控制變數：pH值、底物濃度、酵素濃度、反應時間", marks: 5 },
+  { id: "BSQ04", week: 5, chapter: "B03", q: "描述光合作用的光反應和暗反應的主要過程。", answer: "光反應（在類囊體薄膜）：\n- 水被光解為O₂、H⁺和電子\n- 電子通過電子傳遞鏈產生ATP和NADPH\n\n暗反應/卡爾文循環（在基質）：\n- CO₂被固定（與RuBP結合）\n- 利用ATP和NADPH將CO₂還原為葡萄糖", marks: 5 },
+  { id: "BSQ05", week: 7, chapter: "B04", q: "解釋小腸是如何適應其消化和吸收功能的。", answer: "1. 長度長（約6米），增加消化和吸收時間\n2. 內壁有環狀皺褶和絨毛，增大表面積\n3. 絨毛壁只有一層細胞，利於物質通過\n4. 絨毛內有微血管和乳糜管，運輸營養物\n5. 有豐富的消化酶（來自胰臟和小腸腺）", marks: 5 },
+  { id: "BSQ06", week: 9, chapter: "B05", q: "解釋肺泡如何適合氣體交換。", answer: "1. 肺泡壁只有一層薄的上皮細胞，縮短擴散距離\n2. 肺泡外有大量微血管，維持濃度梯度\n3. 總表面積大（約70m²），增加交換效率\n4. 表面有潤滑液，防止肺泡黏在一起", marks: 4 },
+  { id: "BSQ07", week: 11, chapter: "B06", q: "描述雙循環系統的兩個循環路徑。", answer: "肺循環：右心室→肺動脈→肺部微血管→肺靜脈→左心房\n（在肺部進行氣體交換：排出CO₂，獲得O₂）\n\n體循環：左心室→主動脈→全身微血管→上下腔靜脈→右心房\n（在全身組織進行氣體交換：供給O₂，收集CO₂）", marks: 5 },
+  { id: "BSQ08", week: 14, chapter: "B08", q: "繪畫一條簡單反射弧的結構圖並標註各部分名稱。", answer: "【反射弧結構】\n感受器（皮膚）→感覺神經元→脊髓（中間神經元）→運動神經元→效應器（肌肉）\n\n各部分功能：\n- 感受器：偵測刺激\n- 感覺神經元：傳遞神經衝動至中樞\n- 中間神經元：在脊髓中連接感覺和運動神經元\n- 運動神經元：傳遞神經衝動至效應器\n- 效應器：作出反應", marks: 5 },
+  { id: "BSQ09", week: 16, chapter: "B10", q: "描述人體如何維持血糖濃度的恆定。", answer: "血糖升高時：\n- 胰島（β細胞）分泌更多胰島素\n- 促進細胞吸收葡萄糖\n- 促進肝臟將葡萄糖轉化為糖原儲存\n\n血糖降低時：\n- 胰島（α細胞）分泌更多昇糖素\n- 促進肝臟將糖原轉化為葡萄糖\n- 這是負反饋機制", marks: 5 },
+  { id: "BSQ10", week: 17, chapter: "B11", q: "比較有絲分裂和減數分裂的異同（至少4點）。", answer: "相同點：都有DNA複製、細胞分裂過程\n\n不同點：\n1. 有絲分裂產生2個細胞，減數分裂產生4個細胞\n2. 有絲分裂子細胞染色體數不變，減數分裂減半\n3. 有絲分裂無同源染色體配對，減數分裂有聯會\n4. 有絲分裂用於生長修復，減數分裂用於產生配子", marks: 5 },
+  { id: "BSQ11", week: 18, chapter: "B12", q: "一對夫婦均為白化病基因攜帶者(Aa)，求他們子女中患白化病的概率。", answer: "Aa × Aa\n子代基因型比例：AA:Aa:aa = 1:2:1\naa為白化病患者，概率 = 1/4 = 25%", marks: 3 }
+];
+
+// ---- 本地資源映射 ----
+const LOCAL_RESOURCES = {
+  "math": {
+    basePath: "本地資源目錄",
+    structure: {
+      "0. 课本练习详解": "4A/4B/5A/5B/6A 各冊課本練習答案",
+      "1. 基础技巧工作纸": "按冊分章的基礎練習（共362個文件）",
+      "2. 分节工作纸": "按章節的分練習",
+      "3. 每章測驗": "Chapter Quiz 及答案",
+      "4. 试题库": "中四到中六的試題庫",
+      "5. 超级题目库": "各冊綜合題庫",
+      "6. 持续评核试卷套": "S4-S6 評核試卷",
+      "7. mock": "模擬試卷、暑期評估",
+      "数学教辅": "舉1反5、数学王、MCQ速成班等PDF",
+      "数学真题": "2012-2025 DSE真题（中英文版）+BY TOPIC"
+    }
+  },
+  "bio": {
+    basePath: "本地資源目錄",
+    structure: {
+      "Bio Notes made by Lyann": "Lyann自編筆記（15.7KB）",
+      "extra information/remind note": "應試錦囊、技巧短片PDF",
+      "Skills Building Pack": "技巧提升教材（傳意/數據處理/科學探究/繪圖/運算）",
+      "step 0-revision": "IT題庫(Ch01-40)、顯微圖練習、section quiz",
+      "step 1-basic revision": "基礎複習題",
+      "step 2-exam-type question": "歷屆題型練習(LQ/MC/SQ)、跨課練習",
+      "step 3-mock exam & 真題": "模擬試卷(系列1&2)、DSE真题(2012-2025)、評分樣本"
+    }
+  }
+};
+</script>
+<script>
+// ===== APP STATE =====
+let currentUser = null; // { role:'teacher'|'student', name, class, ... }
+let currentNav = 'overview';
+let currentMonthFilter = 'all';
+let quizState = { questions:[], current:0, answers:[], timer:null, timeLeft:0 };
+let wrongQuestions = JSON.parse(localStorage.getItem('dse_wrong')||'[]');
+let studentProgress = JSON.parse(localStorage.getItem('dse_progress')||'{}');
+
+function saveProgress(){
+  localStorage.setItem('dse_progress', JSON.stringify(studentProgress));
+  localStorage.setItem('dse_wrong', JSON.stringify(wrongQuestions));
+}
+
+// ===== LOGIN =====
+let loginRole = 'teacher';
+function setRole(role){
+  loginRole = role;
+  document.getElementById('tab-teacher').classList.toggle('active', role==='teacher');
+  document.getElementById('tab-student').classList.toggle('active', role==='student');
+  document.getElementById('teacher-fields').style.display = role==='teacher'?'block':'none';
+  document.getElementById('student-fields').classList.toggle('show', role==='student');
+  document.getElementById('login-error').style.display = 'none';
+}
+
+function doLogin(){
+  const errEl = document.getElementById('login-error');
+  if(loginRole==='teacher'){
+    const pw = document.getElementById('teacher-pw').value;
+    if(pw==='GTASLyann'){
+      currentUser = {role:'teacher', name:'Lyann 老師'};
+      errEl.style.display='none';
+      enterApp();
+    } else {
+      errEl.textContent='密碼錯誤！';
+      errEl.style.display='block';
+    }
+  } else {
+    const name = document.getElementById('student-name').value.trim();
+    const cls = document.getElementById('student-class').value.trim();
+    const pw = document.getElementById('student-pw').value;
+    if(!name||!cls){ errEl.textContent='請填寫姓名和班別！'; errEl.style.display='block'; return; }
+    if(pw==='GTAS2027'){
+      currentUser = {role:'student', name:name, class:cls};
+      errEl.style.display='none';
+      enterApp();
+    } else {
+      errEl.textContent='密碼錯誤！';
+      errEl.style.display='block';
+    }
+  }
+}
+
+function doLogout(){
+  currentUser = null;
+  currentNav = 'overview';
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-page').style.display='flex';
+  document.getElementById('teacher-pw').value='';
+  document.getElementById('student-pw').value='';
+  document.getElementById('student-name').value='';
+  document.getElementById('student-class').value='';
+}
+
+function enterApp(){
+  document.getElementById('login-page').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('user-display').textContent = currentUser.role==='teacher'?
+    currentUser.name : `${currentUser.name} (${currentUser.class})`;
+  buildNav();
+  showPage('overview');
+}
+
+// ===== NAVIGATION =====
+function buildNav(){
+  const nav = document.getElementById('main-nav');
+  let items = [
+    {id:'overview', icon:'fa-chart-line', label:'計劃概覽'},
+    {id:'weekly', icon:'fa-calendar-week', label:'每週計劃'},
+    {id:'monthly', icon:'fa-calendar-alt', label:'月度考試'},
+    {id:'checklist', icon:'fa-tasks', label:'進度清單'}
+  ];
+  if(currentUser.role==='student'){
+    items.push({id:'mc-quiz', icon:'fa-question-circle', label:'選擇題練習'});
+    items.push({id:'sq-practice', icon:'fa-pen-fancy', label:'結構題練習'});
+    items.push({id:'wrong-book', icon:'fa-book-open', label:'錯題記錄'});
+  }
+  if(currentUser.role==='teacher'){
+    items.push({id:'question-bank', icon:'fa-database', label:'題庫管理'});
+    items.push({id:'students', icon:'fa-users', label:'學生記錄'});
+    items.push({id:'resources', icon:'fa-folder-open', label:'本地資源'});
+  }
+  nav.innerHTML = items.map(it =>
+    `<button onclick="showPage('${it.id}')" id="nav-${it.id}"><i class="fas ${it.icon}"></i>${it.label}</button>`
+  ).join('');
+}
+
+function showPage(id){
+  currentNav = id;
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  const navBtn = document.getElementById('nav-'+id);
+  if(navBtn) navBtn.classList.add('active');
+  const ct = document.getElementById('main-content');
+  switch(id){
+    case 'overview': renderOverview(ct); break;
+    case 'weekly': renderWeekly(ct); break;
+    case 'monthly': renderMonthly(ct); break;
+    case 'checklist': renderChecklist(ct); break;
+    case 'mc-quiz': renderMCQuiz(ct); break;
+    case 'sq-practice': renderSQPractice(ct); break;
+    case 'wrong-book': renderWrongBook(ct); break;
+    case 'question-bank': renderQuestionBank(ct); break;
+    case 'students': renderStudents(ct); break;
+    case 'resources': renderResources(ct); break;
+    default: ct.innerHTML='<div class="card"><p>頁面開發中...</p></div>';
+  }
+}
+
+// ===== HELPER =====
+function getPhaseLabel(p){ return ['','階段一：單元複習','階段二：跨單元整合','階段三：模擬考衝刺'][p]; }
+function getPhaseClass(p){ return 'phase'+p; }
+function getMonthName(m){
+  const map = {'2026-07':'7月','2026-08':'8月','2026-09':'9月','2026-10':'10月','2026-11':'11月','2026-12':'12月','2027-01':'1月','2027-02':'2月','2027-03':'3月'};
+  return map[m]||m;
+}
+function fmtDate(d){
+  const parts = d.split('-');
+  return `${parseInt(parts[1])}/${parseInt(parts[2])}`;
+}
+function getProgressKey(weekNum, subject){ return `w${weekNum}_${subject}`; }
+
+function getWeekProgress(weekNum){
+  const key = `week_${weekNum}_completed`;
+  return studentProgress[key] || false;
+}
+function setWeekProgress(weekNum, done){
+  studentProgress[`week_${weekNum}_completed`] = done;
+  saveProgress();
+}
+
+function getMCProgress(week, subject){
+  return studentProgress[`mc_${week}_${subject}`] || null; // { score, total, answers, date }
+}
+function setMCProgress(week, subject, data){
+  studentProgress[`mc_${week}_${subject}`] = data;
+  saveProgress();
+}
+
+function getSQProgress(week, subject){
+  return studentProgress[`sq_${week}_${subject}`] || null;
+}
+function setSQProgress(week, subject, data){
+  studentProgress[`sq_${week}_${subject}`] = data;
+  saveProgress();
+}
+
+// ===== OVERVIEW PAGE =====
+function renderOverview(ct){
+  const totalWeeks = WEEKLY_PLAN.length;
+  const completedWeeks = WEEKLY_PLAN.filter(w=>getWeekProgress(w.week)).length;
+  const totalExams = MONTHLY_EXAMS.length * 2;
+  const totalMC = MATH_MC_BANK.length + BIO_MC_BANK.length;
+
+  ct.innerHTML = `
+    <div class="fade-in">
+      ${renderPhaseBanner()}
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="number">${totalWeeks}</div>
+          <div class="label">總週數</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" style="color:var(--success)">${completedWeeks}</div>
+          <div class="label">已完成週數</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" style="color:var(--secondary)">${totalExams}</div>
+          <div class="label">月度考試</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" style="color:var(--accent)">${totalMC}</div>
+          <div class="label">選擇題庫</div>
+        </div>
+      </div>
+      <div class="progress-bar" style="margin-bottom:24px">
+        <div class="fill" style="width:${(completedWeeks/totalWeeks*100).toFixed(1)}%"></div>
+      </div>
+      <p style="text-align:center;color:var(--gray-500);font-size:.85rem;margin-bottom:24px">
+        總體進度：${(completedWeeks/totalWeeks*100).toFixed(1)}%（${completedWeeks}/${totalWeeks} 週）
+      </p>
+
+      <!-- 三階段概覽 -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:24px">
+        ${renderPhaseCard(1, "7月 - 10月", "17週", "單元章節複習", "#2563eb")}
+        ${renderPhaseCard(2, "11月 - 1月", "13週", "跨單元整合", "#7c3aed")}
+        ${renderPhaseCard(3, "2月 - 3月", "9週", "模擬考衝刺", "#dc2626")}
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-book"></i> 本週學習重點</h2>
+        ${renderCurrentWeekDetail()}
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-lightbulb"></i> 週計劃結構說明</h2>
+        <div style="display:grid;gap:12px;font-size:.9rem;color:var(--gray-700)">
+          <div style="display:flex;align-items:start;gap:10px">
+            <i class="fas fa-1" style="background:var(--primary);color:white;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.7rem;margin-top:2px"></i>
+            <div><strong>單元重點回顧</strong> — 該週主題的核心知識點整理與複習</div>
+          </div>
+          <div style="display:flex;align-items:start;gap:10px">
+            <i class="fas fa-2" style="background:var(--secondary);color:white;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.7rem;margin-top:2px"></i>
+            <div><strong>常見問題提醒</strong> — 歷屆考生常犯的錯誤和注意事項</div>
+          </div>
+          <div style="display:flex;align-items:start;gap:10px">
+            <i class="fas fa-3" style="background:var(--accent);color:white;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.7rem;margin-top:2px"></i>
+            <div><strong>口訣</strong> — 便於記憶的重點公式與口訣</div>
+          </div>
+          <div style="display:flex;align-items:start;gap:10px">
+            <i class="fas fa-4" style="background:var(--success);color:white;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.7rem;margin-top:2px"></i>
+            <div><strong>15分鐘選擇題</strong> — 快速檢測概念理解（10題）</div>
+          </div>
+          <div style="display:flex;align-items:start;gap:10px">
+            <i class="fas fa-5" style="background:var(--danger);color:white;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.7rem;margin-top:2px"></i>
+            <div><strong>30分鐘結構題</strong> — 深度作答練習，提升表述能力</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPhaseBanner(){
+  // Find current phase based on date
+  const now = new Date();
+  let phase = 3;
+  if(now < new Date('2026-11-01')) phase = 1;
+  else if(now < new Date('2027-02-01')) phase = 2;
+  const titles = ['','單元章節複習（7-10月）','跨單元整合（11月-1月）','模擬考衝刺（2-3月）'];
+  const descs = ['','按章節逐一複習數學12章+生物12章的核心內容','跨單元綜合題型訓練，培養整合應用能力','全真模擬考+歷屆真题，完善應試技巧與時間管理'];
+  return `<div class="phase-banner ${getPhaseClass(phase)}">
+    <h2><i class="fas fa-flag"></i> 當前階段：${titles[phase]}</h2>
+    <p>${descs[phase]}</p>
+  </div>`;
+}
+
+function renderPhaseCard(p, period, weeks, desc, color){
+  const phaseWeeks = WEEKLY_PLAN.filter(w=>w.phase===p);
+  const done = phaseWeeks.filter(w=>getWeekProgress(w.week)).length;
+  return `<div class="card" style="border-top:4px solid ${color}">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:.8rem;color:var(--gray-500)">階段${['','一','二','三'][p]}</div>
+        <div style="font-weight:700;font-size:1rem;margin:4px 0">${desc}</div>
+        <div style="font-size:.8rem;color:var(--gray-500)">${period} · ${weeks}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:1.5rem;font-weight:700;color:${color}">${done}/${phaseWeeks.length}</div>
+        <div style="font-size:.75rem;color:var(--gray-500)">週已完成</div>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="fill" style="width:${phaseWeeks.length?done/phaseWeeks.length*100:0}%;background:${color}"></div></div>
+  </div>`;
+}
+
+function renderCurrentWeekDetail(){
+  const now = new Date();
+  const today = now.toISOString().slice(0,10);
+  let current = WEEKLY_PLAN.find(w => today >= w.startDate && today <= w.endDate);
+  if(!current) current = WEEKLY_PLAN[0];
+  const mCh = current.math.chapter;
+  const bCh = current.bio.chapter;
+  const mathMn = MATH_MNEMONICS.filter(m=>m.chapter===mCh);
+  const bioMn = BIO_MNEMONICS.filter(m=>m.chapter===bCh);
+  const mathErr = MATH_COMMON_ERRORS.filter(e=>e.chapter===mCh);
+  const bioErr = BIO_COMMON_ERRORS.filter(e=>e.chapter===bCh);
+
+  return `
+    <div style="margin-bottom:8px;font-size:.85rem;color:var(--gray-500)">
+      第${current.week}週 (${fmtDate(current.startDate)} - ${fmtDate(current.endDate)}) · ${getPhaseLabel(current.phase)}
+    </div>
+    <div style="display:grid;gap:16px">
+      <div>
+        <div class="subject-header">
+          <span class="subject-tag math">數學</span>
+          <span class="subject-name">${current.math.topic}</span>
+        </div>
+        ${current.math.mcFocus?`<div style="font-size:.85rem;margin-bottom:4px"><i class="fas fa-bullseye" style="color:var(--gray-400)"></i> MC重點：${current.math.mcFocus}</div>`:''}
+        ${current.math.sqFocus?`<div style="font-size:.85rem;margin-bottom:4px"><i class="fas fa-pen" style="color:var(--gray-400)"></i> SQ重點：${current.math.sqFocus}</div>`:''}
+        ${current.math.resource?`<div style="font-size:.8rem;color:var(--gray-500)"><i class="fas fa-folder"></i> 資源：${current.math.resource}</div>`:''}
+        ${mathErr.map(e=>`<div class="error-tip"><div class="error-title"><i class="fas fa-exclamation-triangle"></i> ${e.error}</div><div class="error-tip-text"><i class="fas fa-check-circle"></i> ${e.tip}</div></div>`).join('')}
+        ${mathMn.map(m=>`<div class="mnemonic-card"><div class="mnemonic-title"><i class="fas fa-lightbulb"></i> ${m.title}</div><div class="mnemonic-content">${m.content}</div></div>`).join('')}
+      </div>
+      <div>
+        <div class="subject-header">
+          <span class="subject-tag bio">生物</span>
+          <span class="subject-name">${current.bio.topic}</span>
+        </div>
+        ${current.bio.mcFocus?`<div style="font-size:.85rem;margin-bottom:4px"><i class="fas fa-bullseye" style="color:var(--gray-400)"></i> MC重點：${current.bio.mcFocus}</div>`:''}
+        ${current.bio.sqFocus?`<div style="font-size:.85rem;margin-bottom:4px"><i class="fas fa-pen" style="color:var(--gray-400)"></i> SQ重點：${current.bio.sqFocus}</div>`:''}
+        ${current.bio.resource?`<div style="font-size:.8rem;color:var(--gray-500)"><i class="fas fa-folder"></i> 資源：${current.bio.resource}</div>`:''}
+        ${bioErr.map(e=>`<div class="error-tip"><div class="error-title"><i class="fas fa-exclamation-triangle"></i> ${e.error}</div><div class="error-tip-text"><i class="fas fa-check-circle"></i> ${e.tip}</div></div>`).join('')}
+        ${bioMn.map(m=>`<div class="mnemonic-card"><div class="mnemonic-title"><i class="fas fa-lightbulb"></i> ${m.title}</div><div class="mnemonic-content">${m.content}</div></div>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ===== WEEKLY PLAN PAGE =====
+function renderWeekly(ct){
+  const months = [...new Set(WEEKLY_PLAN.map(w=>w.month))];
+  ct.innerHTML = `<div class="fade-in">
+    <h2 style="margin-bottom:16px"><i class="fas fa-calendar-week"></i> 39週完整備考計劃</h2>
+    <div class="filter-bar">
+      <button class="filter-btn ${currentMonthFilter==='all'?'active':''}" onclick="filterMonth('all')">全部</button>
+      ${months.map(m=>`<button class="filter-btn ${currentMonthFilter===m?'active':''}" onclick="filterMonth('${m}')">${getMonthName(m)}</button>`).join('')}
+    </div>
+    <div class="week-grid" id="week-grid"></div>
+  </div>`;
+  renderWeekCards();
+}
+
+function filterMonth(m){
+  currentMonthFilter = m;
+  renderWeekly(document.getElementById('main-content'));
+}
+
+function renderWeekCards(){
+  const grid = document.getElementById('week-grid');
+  if(!grid) return;
+  const filtered = currentMonthFilter==='all' ? WEEKLY_PLAN : WEEKLY_PLAN.filter(w=>w.month===currentMonthFilter);
+  grid.innerHTML = filtered.map(w => {
+    const done = getWeekProgress(w.week);
+    const mcMath = getMCProgress(w.week,'math');
+    const mcBio = getMCProgress(w.week,'bio');
+    const sqMath = getSQProgress(w.week,'math');
+    const sqBio = getSQProgress(w.week,'bio');
+    return `<div class="week-card ${getPhaseClass(w.phase)} ${done?'completed':''}">
+      <div class="week-header">
+        <div>
+          <span class="week-num">第${w.week}週</span>
+          <span class="week-date">(${fmtDate(w.startDate)} - ${fmtDate(w.endDate)})</span>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          ${done?'<i class="fas fa-check-circle" style="color:var(--success)" title="已完成"></i>':''}
+          <span style="font-size:.75rem;color:var(--gray-500)">${getPhaseLabel(w.phase).split('：')[0]}</span>
+        </div>
+      </div>
+      <div class="week-body">
+        <div class="week-subject">
+          <span class="subject-tag math">數學</span>
+          <div class="subject-topic">${w.math.topic}</div>
+          <div class="subject-detail">
+            <i class="fas fa-bullseye"></i> MC: ${w.math.mcFocus}<br>
+            <i class="fas fa-pen"></i> SQ: ${w.math.sqFocus}
+          </div>
+          <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+            ${mcMath?`<span class="badge ${mcMath.score/mcMath.total>=0.6?'badge-pass':'badge-fail'}">MC ${mcMath.score}/${mcMath.total}</span>`:''}
+            ${sqMath?`<span class="badge badge-pending">SQ 已提交</span>`:''}
+          </div>
+        </div>
+        <div class="week-subject">
+          <span class="subject-tag bio">生物</span>
+          <div class="subject-topic">${w.bio.topic}</div>
+          <div class="subject-detail">
+            <i class="fas fa-bullseye"></i> MC: ${w.bio.mcFocus}<br>
+            <i class="fas fa-pen"></i> SQ: ${w.bio.sqFocus}
+          </div>
+          <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+            ${mcBio?`<span class="badge ${mcBio.score/mcBio.total>=0.6?'badge-pass':'badge-fail'}">MC ${mcBio.score}/${mcBio.total}</span>`:''}
+            ${sqBio?`<span class="badge badge-pending">SQ 已提交</span>`:''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== MONTHLY EXAMS PAGE =====
+function renderMonthly(ct){
+  ct.innerHTML = `<div class="fade-in">
+    <h2 style="margin-bottom:16px"><i class="fas fa-calendar-alt"></i> 月度考試安排</h2>
+    <p style="color:var(--gray-500);font-size:.9rem;margin-bottom:20px">每月數學和生物各一套考試卷，檢視該月學習成果</p>
+    ${MONTHLY_EXAMS.map(exam => `
+      <div class="exam-card">
+        <div class="exam-header">
+          <span class="exam-period"><i class="fas fa-calendar"></i> ${exam.period}</span>
+        </div>
+        <div class="exam-body">
+          ${exam.subjects.map(s=>`
+            <div class="exam-subject">
+              <div class="exam-name">
+                <span class="subject-tag ${s.subject==='math'?'math':'bio'}" style="margin-right:6px">${s.subject==='math'?'數學':'生物'}</span>
+                ${s.name}
+              </div>
+              <div class="exam-info">
+                <div><i class="fas fa-book"></i> 範圍：${Array.isArray(s.chapters)?s.chapters.join(', '):s.chapters}</div>
+                <div><i class="fas fa-folder"></i> 資源：${s.resource}</div>
+                <div><i class="fas fa-clock"></i> 時限：${s.time}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+// ===== CHECKLIST PAGE =====
+function renderChecklist(ct){
+  ct.innerHTML = `<div class="fade-in">
+    <h2 style="margin-bottom:16px"><i class="fas fa-tasks"></i> 學習進度檢查清單</h2>
+    <p style="color:var(--gray-500);font-size:.9rem;margin-bottom:20px">勾選已完成的項目以追蹤進度（資料儲存在本地）</p>
+    ${WEEKLY_PLAN.map(w => {
+      const done = getWeekProgress(w.week);
+      return `<div class="card" style="padding:16px 20px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <input type="checkbox" ${done?'checked':''} onchange="setWeekProgress(${w.week},this.checked);showPage('checklist')"
+            style="width:20px;height:20px;accent-color:var(--success)">
+          <div>
+            <strong>第${w.week}週</strong>
+            <span style="color:var(--gray-500);font-size:.85rem;margin-left:8px">${fmtDate(w.startDate)} - ${fmtDate(w.endDate)}</span>
+            <span class="subject-tag ${getPhaseClass(w.phase)}" style="font-size:.7rem;margin-left:8px">${getPhaseLabel(w.phase).split('：')[0]}</span>
+          </div>
+        </div>
+        <div style="padding-left:32px;font-size:.85rem;color:var(--gray-700)">
+          <span class="subject-tag math" style="font-size:.7rem">數</span> ${w.math.topic}
+          <span style="margin:0 8px">|</span>
+          <span class="subject-tag bio" style="font-size:.7rem">生</span> ${w.bio.topic}
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// ===== MC QUIZ PAGE (Student) =====
+function renderMCQuiz(ct){
+  ct.innerHTML = `<div class="fade-in">
+    <h2 style="margin-bottom:16px"><i class="fas fa-question-circle"></i> 選擇題練習（15分鐘）</h2>
+    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center">
+      <label style="font-size:.9rem;font-weight:600">選擇週次：</label>
+      <select id="mc-week-select" onchange="loadMCQuestions()" style="padding:8px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:.9rem">
+        ${WEEKLY_PLAN.map(w=>`<option value="${w.week}">第${w.week}週 - ${w.math.topic} / ${w.bio.topic}</option>`).join('')}
+      </select>
+      <label style="font-size:.9rem;font-weight:600">科目：</label>
+      <select id="mc-subject-select" onchange="loadMCQuestions()" style="padding:8px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:.9rem">
+        <option value="math">數學</option>
+        <option value="bio">生物</option>
+      </select>
+    </div>
+    <div id="mc-quiz-area"></div>
+  </div>`;
+  loadMCQuestions();
+}
+
+function loadMCQuestions(){
+  const week = parseInt(document.getElementById('mc-week-select').value);
+  const subject = document.getElementById('mc-subject-select').value;
+  const area = document.getElementById('mc-quiz-area');
+
+  const bank = subject==='math' ? MATH_MC_BANK : BIO_MC_BANK;
+  const weekQuestions = bank.filter(q=>q.week===week);
+  const prevProgress = getMCProgress(week, subject);
+
+  if(weekQuestions.length===0){
+    area.innerHTML = `<div class="card" style="text-align:center;padding:40px">
+      <i class="fas fa-info-circle" style="font-size:2rem;color:var(--gray-300);margin-bottom:12px"></i>
+      <p>該週暫無${subject==='math'?'數學':'生物'}選擇題</p>
+      <p style="font-size:.85rem;color:var(--gray-500)">題庫持續更新中，請選擇其他週次</p>
+    </div>`;
+    return;
+  }
+
+  if(prevProgress){
+    // Show previous result
+    const pct = (prevProgress.score/prevProgress.total*100).toFixed(0);
+    const cls = pct>=80?'excellent':pct>=60?'good':pct>=40?'average':'poor';
+    area.innerHTML = `
+      <div class="card score-display">
+        <div class="score-circle ${cls}">${prevProgress.score}/${prevProgress.total}</div>
+        <p style="font-weight:600;font-size:1.1rem">得分率：${pct}%</p>
+        <p style="color:var(--gray-500);font-size:.85rem;margin-top:4px">完成時間：${prevProgress.date||'未知'}</p>
+        <div class="quiz-controls" style="justify-content:center">
+          <button class="btn btn-primary" onclick="startMCQuiz()"><i class="fas fa-redo"></i> 重新作答</button>
+          <button class="btn btn-secondary" onclick="showMCReview(${week},'${subject}')"><i class="fas fa-eye"></i> 查看詳情</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  area.innerHTML = `<div class="card" style="text-align:center;padding:30px">
+    <p style="font-size:.9rem;margin-bottom:8px">第${week}週 ${subject==='math'?'數學':'生物'}選擇題</p>
+    <p style="font-size:.85rem;color:var(--gray-500);margin-bottom:16px">共 ${weekQuestions.length} 題 · 建議時限15分鐘</p>
+    <button class="btn btn-primary" onclick="startMCQuiz()"><i class="fas fa-play"></i> 開始作答</button>
+  </div>`;
+}
+
+function startMCQuiz(){
+  const week = parseInt(document.getElementById('mc-week-select').value);
+  const subject = document.getElementById('mc-subject-select').value;
+  const bank = subject==='math' ? MATH_MC_BANK : BIO_MC_BANK;
+  const questions = bank.filter(q=>q.week===week);
+
+  quizState = { questions, current:0, answers:new Array(questions.length).fill(-1), timer:null, timeLeft:15*60, week, subject };
+
+  renderMCQuizPlaying();
+  quizState.timer = setInterval(()=>{
+    quizState.timeLeft--;
+    updateTimer();
+    if(quizState.timeLeft<=0) finishMCQuiz();
+  },1000);
+}
+
+function renderMCQuizPlaying(){
+  const area = document.getElementById('mc-quiz-area');
+  const q = quizState.questions[quizState.current];
+  const total = quizState.questions.length;
+  const optLabels = ['A','B','C','D'];
+
+  area.innerHTML = `
+    <div class="quiz-container">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <span style="font-weight:600">第${quizState.current+1}/${total}題</span>
+        <div class="timer"><i class="fas fa-clock"></i> <span id="mc-timer">${formatTime(quizState.timeLeft)}</span></div>
+      </div>
+      <div class="progress-bar"><div class="fill" style="width:${(quizState.current/total)*100}%"></div></div>
+      <div class="quiz-question">
+        <div class="quiz-num">${q.chapter} · ${q.id}</div>
+        <div class="quiz-text">${q.q}</div>
+        <div class="quiz-options">
+          ${q.options.map((opt,i)=>`
+            <div class="quiz-option ${quizState.answers[quizState.current]===i?'selected':''}"
+              onclick="selectMCAnswer(${i})">
+              <strong>${optLabels[i]}</strong>. ${opt}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="quiz-controls">
+        <button class="btn btn-secondary" ${quizState.current===0?'disabled':''} onclick="prevMCQ()"><i class="fas fa-arrow-left"></i> 上一題</button>
+        ${quizState.current<total-1?
+          `<button class="btn btn-primary" onclick="nextMCQ()">下一題 <i class="fas fa-arrow-right"></i></button>`:
+          `<button class="btn btn-success" onclick="finishMCQuiz()"><i class="fas fa-check"></i> 完成並提交</button>`
+        }
+      </div>
+    </div>`;
+}
+
+function selectMCAnswer(i){
+  quizState.answers[quizState.current] = i;
+  renderMCQuizPlaying();
+}
+
+function prevMCQ(){ if(quizState.current>0){ quizState.current--; renderMCQuizPlaying(); } }
+function nextMCQ(){ if(quizState.current<quizState.questions.length-1){ quizState.current++; renderMCQuizPlaying(); } }
+
+function formatTime(s){
+  const m = Math.floor(s/60);
+  const sec = s%60;
+  return `${m.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+}
+
+function updateTimer(){
+  const el = document.getElementById('mc-timer');
+  if(el) el.textContent = formatTime(quizState.timeLeft);
+}
+
+function finishMCQuiz(){
+  clearInterval(quizState.timer);
+  const questions = quizState.questions;
+  const answers = quizState.answers;
+  let score = 0;
+  questions.forEach((q,i)=>{ if(answers[i]===q.answer) score++; });
+  const total = questions.length;
+
+  // Save progress
+  setMCProgress(quizState.week, quizState.subject, {score, total, answers, date:new Date().toLocaleDateString('zh-HK')});
+
+  // Update wrong questions
+  questions.forEach((q,i)=>{
+    if(answers[i]!==q.answer){
+      const existing = wrongQuestions.findIndex(w=>w.id===q.id);
+      if(existing>=0) wrongQuestions[existing].count = (wrongQuestions[existing].count||1)+1;
+      else wrongQuestions.push({...q, count:1, subject:quizState.subject, week:quizState.week});
+    } else {
+      // Remove from wrong if correct
+      const idx = wrongQuestions.findIndex(w=>w.id===q.id);
+      if(idx>=0) wrongQuestions.splice(idx,1);
+    }
+  });
+  saveProgress();
+
+  // Show result
+  const pct = (score/total*100).toFixed(0);
+  const cls = pct>=80?'excellent':pct>=60?'good':pct>=40?'average':'poor';
+  const area = document.getElementById('mc-quiz-area');
+  const optLabels = ['A','B','C','D'];
+
+  area.innerHTML = `
+    <div class="card score-display">
+      <div class="score-circle ${cls}">${score}/${total}</div>
+      <p style="font-weight:600;font-size:1.1rem">得分率：${pct}%</p>
+      <p style="color:var(--gray-500);font-size:.85rem;margin:4px 0 16px">用時：${formatTime(15*60-quizState.timeLeft)}</p>
+    </div>
+    <div class="quiz-container">
+      ${questions.map((q,i)=>{
+        const isCorrect = answers[i]===q.answer;
+        const isWrong = answers[i]!==-1 && answers[i]!==q.answer;
+        const isSkipped = answers[i]===-1;
+        return `<div class="quiz-question" style="border-left:4px solid ${isCorrect?'var(--success)':isWrong?'var(--danger)':'var(--gray-300)'}">
+          <div class="quiz-num">第${i+1}題 ${isCorrect?'✅ 正確':isWrong?'❌ 錯誤':'⏭️ 未答'}</div>
+          <div class="quiz-text">${q.q}</div>
+          <div class="quiz-options">
+            ${q.options.map((opt,j)=>{
+              let cls = '';
+              if(j===q.answer) cls='correct';
+              else if(j===answers[i]&&j!==q.answer) cls='wrong';
+              return `<div class="quiz-option ${cls}">${optLabels[j]}. ${opt} ${j===q.answer?'<i class="fas fa-check" style="margin-left:6px"></i>':''} ${j===answers[i]&&j!==q.answer?'<i class="fas fa-times" style="margin-left:6px"></i>':''}</div>`;
+            }).join('')}
+          </div>
+          <div class="quiz-explanation show"><i class="fas fa-lightbulb" style="color:var(--accent)"></i> <strong>解析：</strong>${q.explanation}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="quiz-controls" style="justify-content:center">
+      <button class="btn btn-primary" onclick="loadMCQuestions()"><i class="fas fa-arrow-left"></i> 返回</button>
+      <button class="btn btn-secondary" onclick="startMCQuiz()"><i class="fas fa-redo"></i> 重做</button>
+    </div>`;
+}
+
+// ===== SQ PRACTICE PAGE (Student) =====
+function renderSQPractice(ct){
+  ct.innerHTML = `<div class="fade-in">
+    <h2 style="margin-bottom:16px"><i class="fas fa-pen-fancy"></i> 結構題練習（30分鐘）</h2>
+    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center">
+      <label style="font-size:.9rem;font-weight:600">選擇週次：</label>
+      <select id="sq-week-select" onchange="loadSQQuestions()" style="padding:8px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:.9rem">
+        ${WEEKLY_PLAN.map(w=>`<option value="${w.week}">第${w.week}週 - ${w.math.topic} / ${w.bio.topic}</option>`).join('')}
+      </select>
+      <label style="font-size:.9rem;font-weight:600">科目：</label>
+      <select id="sq-subject-select" onchange="loadSQQuestions()" style="padding:8px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:.9rem">
+        <option value="math">數學</option>
+        <option value="bio">生物</option>
+      </select>
+    </div>
+    <div id="sq-practice-area"></div>
+  </div>`;
+  loadSQQuestions();
+}
+
+function loadSQQuestions(){
+  const week = parseInt(document.getElementById('sq-week-select').value);
+  const subject = document.getElementById('sq-subject-select').value;
+  const area = document.getElementById('sq-practice-area');
+  const bank = subject==='math' ? MATH_SQ_BANK : BIO_SQ_BANK;
+  const questions = bank.filter(q=>q.week===week);
+  const prevProgress = getSQProgress(week, subject);
+
+  if(questions.length===0){
+    area.innerHTML = `<div class="card" style="text-align:center;padding:40px">
+      <i class="fas fa-info-circle" style="font-size:2rem;color:var(--gray-300);margin-bottom:12px"></i>
+      <p>該週暫無${subject==='math'?'數學':'生物'}結構題</p>
+    </div>`;
+    return;
+  }
+
+  area.innerHTML = `
+    <div class="quiz-container">
+      <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-weight:600">第${week}週 ${subject==='math'?'數學':'生物'}結構題</span>
+        <span style="font-size:.85rem;color:var(--gray-500)">共 ${questions.length} 題 · 建議時限30分鐘</span>
+      </div>
+      ${questions.map((q,i)=>`
+        <div class="quiz-question">
+          <div class="quiz-num">第${i+1}題 (${q.marks}分) ${q.id}</div>
+          <div class="quiz-text">${q.q}</div>
+          <textarea class="answer-textarea" id="sq-answer-${i}" placeholder="在此輸入你的答案...">${prevProgress?prevProgress.answers[i]||'':''}</textarea>
+        </div>
+      `).join('')}
+      <div class="quiz-controls">
+        <button class="btn btn-primary" onclick="submitSQ()"><i class="fas fa-paper-plane"></i> 提交答案</button>
+        ${prevProgress?`<button class="btn btn-secondary" onclick="showSQAnswers()"><i class="fas fa-eye"></i> 查看參考答案</button>`:''}
+      </div>
+    </div>
+    <div id="sq-answer-area"></div>`;
+}
+
+function submitSQ(){
+  const week = parseInt(document.getElementById('sq-week-select').value);
+  const subject = document.getElementById('sq-subject-select').value;
+  const bank = subject==='math' ? MATH_SQ_BANK : BIO_SQ_BANK;
+  const questions = bank.filter(q=>q.week===week);
+  const answers = questions.map((_,i)=>document.getElementById(`sq-answer-${i}`).value);
+  const totalMarks = questions.reduce((s,q)=>s+q.marks,0);
+
+  setSQProgress(week, subject, { answers, date:new Date().toLocaleDateString('zh-HK') });
+
+  const area = document.getElementById('sq-answer-area');
+  area.innerHTML = `<div class="card" style="margin-top:16px;background:#ecfdf5;border:1px solid #86efac">
+    <h3 style="color:#15803d"><i class="fas fa-check-circle"></i> 提交成功！</h3>
+    <p style="font-size:.9rem">已記錄提交時間：${new Date().toLocaleDateString('zh-HK')}</p>
+    <button class="btn btn-success" style="margin-top:12px" onclick="showSQAnswers()"><i class="fas fa-eye"></i> 查看參考答案</button>
+  </div>`;
+}
+
+function showSQAnswers(){
+  const week = parseInt(document.getElementById('sq-week-select').value);
+  const subject = document.getElementById('sq-subject-select').value;
+  const bank = subject==='math' ? MATH_SQ_BANK : BIO_SQ_BANK;
+  const questions = bank.filter(q=>q.week===week);
+  const area = document.getElementById('sq-answer-area');
+
+  area.innerHTML = `<div style="margin-top:16px">
+    <h3 style="margin-bottom:12px"><i class="fas fa-key"></i> 參考答案</h3>
+    ${questions.map((q,i)=>`
+      <div class="card" style="padding:16px;margin-bottom:12px">
+        <div style="font-weight:600;margin-bottom:8px">第${i+1}題 (${q.marks}分)</div>
+        <div style="font-size:.9rem;margin-bottom:8px;color:var(--gray-700)">${q.q}</div>
+        <div style="background:#f0fdf4;padding:12px;border-radius:8px;font-size:.85rem;white-space:pre-wrap"><strong>參考答案：</strong><br>${q.answer}</div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+// ===== WRONG QUESTIONS BOOK (Student) =====
+function renderWrongBook(ct){
+  ct.innerHTML = `<div class="fade-in">
+    <h2 style="margin-bottom:16px"><i class="fas fa-book-open"></i> 錯題記錄</h2>
+    <p style="color:var(--gray-500);font-size:.9rem;margin-bottom:20px">
+      共 ${wrongQuestions.length} 道錯題 · 重做錯題以加強記憶
+    </p>
+    ${wrongQuestions.length===0?`
+      <div class="card" style="text-align:center;padding:40px">
+        <i class="fas fa-trophy" style="font-size:3rem;color:var(--accent);margin-bottom:12px"></i>
+        <p style="font-weight:600;font-size:1.1rem">太棒了！目前沒有錯題 🎉</p>
+        <p style="font-size:.85rem;color:var(--gray-500)">繼續保持，繼續加油！</p>
+      </div>
+    `:''}
+    ${wrongQuestions.map((q,i)=>{
+      const optLabels = ['A','B','C','D'];
+      return `<div class="wrong-item">
+        <div class="wrong-q">${i+1}. ${q.q}</div>
+        <div class="wrong-meta">
+          <span class="subject-tag ${q.subject==='math'?'math':'bio'}">${q.subject==='math'?'數學':'生物'}</span>
+          第${q.week}週 · 錯誤次數：${q.count||1}次
+        </div>
+        <div style="margin:8px 0">
+          ${q.options.map((opt,j)=>`
+            <span style="display:inline-block;padding:4px 10px;margin:2px;border-radius:4px;font-size:.8rem;
+              ${j===q.answer?'background:#dcfce7;color:#15803d;font-weight:700':''}">${optLabels[j]}. ${opt}</span>
+          `).join('')}
+        </div>
+        <div class="wrong-answer"><i class="fas fa-check-circle"></i> 正確答案：${optLabels[q.answer]}. ${q.options[q.answer]}</div>
+        <div style="font-size:.85rem;color:var(--gray-600);margin-top:6px"><i class="fas fa-lightbulb" style="color:var(--accent)"></i> ${q.explanation}</div>
+        <button class="btn btn-secondary" style="margin-top:8px;font-size:.8rem;padding:4px 12px" onclick="removeWrong(${i})"><i class="fas fa-trash"></i> 已掌握，移除</button>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function removeWrong(idx){
+  if(confirm('確定要移除此錯題嗎？')){
+    wrongQuestions.splice(idx,1);
+    saveProgress();
+    renderWrongBook(document.getElementById('main-content'));
+  }
+}
+
+// ===== TEACHER: QUESTION BANK =====
+function renderQuestionBank(ct){
+  ct.innerHTML = `<div class="fade-in">
+    <h2 style="margin-bottom:16px"><i class="fas fa-database"></i> 題庫管理</h2>
+    <div class="teacher-stats">
+      <div class="teacher-stat">
+        <i class="fas fa-list" style="color:var(--primary)"></i>
+        <div class="val">${MATH_MC_BANK.length + BIO_MC_BANK.length}</div>
+        <div class="lbl">選擇題總數</div>
+      </div>
+      <div class="teacher-stat">
+        <i class="fas fa-pen" style="color:var(--secondary)"></i>
+        <div class="val">${MATH_SQ_BANK.length + BIO_SQ_BANK.length}</div>
+        <div class="lbl">結構題總數</div>
+      </div>
+      <div class="teacher-stat">
+        <i class="fas fa-calculator" style="color:var(--primary)"></i>
+        <div class="val">${MATH_MC_BANK.length}</div>
+        <div class="lbl">數學選擇題</div>
+      </div>
+      <div class="teacher-stat">
+        <i class="fas fa-dna" style="color:var(--success)"></i>
+        <div class="val">${BIO_MC_BANK.length}</div>
+        <div class="lbl">生物選擇題</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-question-circle"></i> 數學選擇題庫</h2>
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="showTeacherBank('math','mc',this)">全部 (${MATH_MC_BANK.length})</button>
+        <button class="inner-tab" onclick="showTeacherBank('math','sq',this)">結構題 (${MATH_SQ_BANK.length})</button>
+        <button class="inner-tab" onclick="showTeacherBank('math','mnemonics',this)">口訣 (${MATH_MNEMONICS.length})</button>
+        <button class="inner-tab" onclick="showTeacherBank('math','errors',this)">常見錯誤 (${MATH_COMMON_ERRORS.length})</button>
+      </div>
+      <div id="teacher-bank-math"></div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-dna"></i> 生物選擇題庫</h2>
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="showTeacherBank('bio','mc',this)">全部 (${BIO_MC_BANK.length})</button>
+        <button class="inner-tab" onclick="showTeacherBank('bio','sq',this)">結構題 (${BIO_SQ_BANK.length})</button>
+        <button class="inner-tab" onclick="showTeacherBank('bio','mnemonics',this)">口訣 (${BIO_MNEMONICS.length})</button>
+        <button class="inner-tab" onclick="showTeacherBank('bio','errors',this)">常見錯誤 (${BIO_COMMON_ERRORS.length})</button>
+      </div>
+      <div id="teacher-bank-bio"></div>
+    </div>
+  </div>`;
+
+  showTeacherBank('math','mc',document.querySelector('#teacher-bank-math').parentElement.querySelector('.inner-tab'));
+  showTeacherBank('bio','mc',document.querySelector('#teacher-bank-bio').parentElement.querySelector('.inner-tab'));
+}
+
+function showTeacherBank(subject, type, btn){
+  if(btn){
+    btn.parentElement.querySelectorAll('.inner-tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const container = document.getElementById(`teacher-bank-${subject}`);
+  if(!container) return;
+  const optLabels = ['A','B','C','D'];
+
+  if(type==='mc'){
+    const bank = subject==='math'?MATH_MC_BANK:BIO_MC_BANK;
+    container.innerHTML = bank.map(q=>`
+      <div class="quiz-question" style="margin-bottom:12px">
+        <div class="quiz-num">${q.id} · 第${q.week}週 · ${q.chapter}</div>
+        <div class="quiz-text">${q.q}</div>
+        <div class="quiz-options">
+          ${q.options.map((opt,j)=>`<div class="quiz-option ${j===q.answer?'correct':''}" style="cursor:default">${optLabels[j]}. ${opt} ${j===q.answer?'✅':''}</div>`).join('')}
+        </div>
+        <div class="quiz-explanation show"><strong>解析：</strong>${q.explanation}</div>
+      </div>`).join('');
+  } else if(type==='sq'){
+    const bank = subject==='math'?MATH_SQ_BANK:BIO_SQ_BANK;
+    container.innerHTML = bank.map(q=>`
+      <div class="quiz-question" style="margin-bottom:12px">
+        <div class="quiz-num">${q.id} · 第${q.week}週 · ${q.chapter} · ${q.marks}分</div>
+        <div class="quiz-text">${q.q}</div>
+        <div style="background:#f0fdf4;padding:12px;border-radius:8px;font-size:.85rem;margin-top:8px;white-space:pre-wrap"><strong>參考答案：</strong><br>${q.answer}</div>
+      </div>`).join('');
+  } else if(type==='mnemonics'){
+    const list = subject==='math'?MATH_MNEMONICS:BIO_MNEMONICS;
+    container.innerHTML = list.map(m=>`
+      <div class="mnemonic-card">
+        <div class="mnemonic-title"><i class="fas fa-lightbulb"></i> ${m.title} (${m.chapter})</div>
+        <div class="mnemonic-content">${m.content}</div>
+      </div>`).join('');
+  } else if(type==='errors'){
+    const list = subject==='math'?MATH_COMMON_ERRORS:BIO_COMMON_ERRORS;
+    container.innerHTML = list.map(e=>`
+      <div class="error-tip">
+        <div class="error-title"><i class="fas fa-exclamation-triangle"></i> ${e.error} (${e.chapter})</div>
+        <div class="error-tip-text"><i class="fas fa-check-circle"></i> ${e.tip}</div>
+      </div>`).join('');
+  }
+}
+
+// ===== TEACHER: STUDENT RECORDS =====
+function renderStudents(ct){
+  ct.innerHTML = `<div class="fade-in">
+    <h2 style="margin-bottom:16px"><i class="fas fa-users"></i> 學生記錄</h2>
+    <p style="color:var(--gray-500);font-size:.9rem;margin-bottom:20px">
+      學生進度資料儲存在本地 localStorage（瀏覽器端）
+    </p>
+    <div class="card">
+      <h2><i class="fas fa-chart-bar"></i> 整體統計</h2>
+      <div class="teacher-stats" id="student-stats-area"></div>
+    </div>
+    <div class="card">
+      <h2><i class="fas fa-history"></i> 作答記錄</h2>
+      <div id="student-records-area" style="max-height:400px;overflow-y:auto"></div>
+    </div>
+  </div>`;
+
+  // Show overall stats
+  let totalMC = 0, totalCorrect = 0, totalSQ = 0;
+  WEEKLY_PLAN.forEach(w=>{
+    const mMC = getMCProgress(w.week,'math');
+    const bMC = getMCProgress(w.week,'bio');
+    const mSQ = getSQProgress(w.week,'math');
+    const bSQ = getSQProgress(w.week,'bio');
+    if(mMC){ totalMC+=mMC.total; totalCorrect+=mMC.score; }
+    if(bMC){ totalMC+=bMC.total; totalCorrect+=bMC.score; }
+    if(mSQ) totalSQ++;
+    if(bSQ) totalSQ++;
+  });
+
+  document.getElementById('student-stats-area').innerHTML = `
+    <div class="teacher-stat"><i class="fas fa-check-circle" style="color:var(--success)"></i><div class="val">${totalCorrect}/${totalMC}</div><div class="lbl">MC總答對率</div></div>
+    <div class="teacher-stat"><i class="fas fa-percentage" style="color:var(--primary)"></i><div class="val">${totalMC?((totalCorrect/totalMC)*100).toFixed(1):0}%</div><div class="lbl">MC平均得分率</div></div>
+    <div class="teacher-stat"><i class="fas fa-pen-fancy" style="color:var(--secondary)"></i><div class="val">${totalSQ}</div><div class="lbl">已提交結構題次數</div></div>
+    <div class="teacher-stat"><i class="fas fa-exclamation-circle" style="color:var(--danger)"></i><div class="val">${wrongQuestions.length}</div><div class="lbl">錯題數量</div></div>
+  `;
+
+  // Show records
+  const records = [];
+  WEEKLY_PLAN.forEach(w=>{
+    ['math','bio'].forEach(subj=>{
+      const mc = getMCProgress(w.week, subj);
+      const sq = getSQProgress(w.week, subj);
+      if(mc) records.push({type:'MC', week:w.week, subject:subj, detail:`${mc.score}/${mc.total} (${(mc.score/mc.total*100).toFixed(0)}%)`, date:mc.date});
+      if(sq) records.push({type:'SQ', week:w.week, subject:subj, detail:'已提交', date:sq.date});
+    });
+  });
+
+  document.getElementById('student-records-area').innerHTML = records.length===0?
+    '<p style="color:var(--gray-500);text-align:center;padding:20px">暫無記錄</p>':
+    `<table class="records-table">
+      <thead><tr><th>類型</th><th>週次</th><th>科目</th><th>結果</th><th>日期</th></tr></thead>
+      <tbody>${records.sort((a,b)=>b.week-a.week).map(r=>`
+        <tr>
+          <td><span class="badge ${r.type==='MC'?'badge-pass':'badge-pending'}">${r.type==='MC'?'選擇題':'結構題'}</span></td>
+          <td>第${r.week}週</td>
+          <td><span class="subject-tag ${r.subject==='math'?'math':'bio'}">${r.subject==='math'?'數學':'生物'}</span></td>
+          <td>${r.detail}</td>
+          <td>${r.date||'-'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+// ===== TEACHER: LOCAL RESOURCES =====
+function renderResources(ct){
+  ct.innerHTML = `<div class="fade-in">
+    <h2 style="margin-bottom:16px"><i class="fas fa-folder-open"></i> 本地資源目錄</h2>
+    <p style="color:var(--gray-500);font-size:.9rem;margin-bottom:20px">
+      資源儲存位置：<code style="background:var(--gray-100);padding:2px 8px;border-radius:4px">本地資源目錄</code>
+    </p>
+
+    <div class="card">
+      <h2><i class="fas fa-calculator" style="color:var(--primary)"></i> 數學資源</h2>
+      <table class="records-table">
+        <thead><tr><th>目錄</th><th>說明</th><th>文件數</th></tr></thead>
+        <tbody>
+          ${Object.entries(LOCAL_RESOURCES.math.structure).map(([name,desc])=>`
+            <tr><td style="font-weight:600">${name}</td><td>${desc}</td><td>-</td></tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-dna" style="color:var(--success)"></i> 生物資源</h2>
+      <table class="records-table">
+        <thead><tr><th>目錄</th><th>說明</th></tr></thead>
+        <tbody>
+          ${Object.entries(LOCAL_RESOURCES.bio.structure).map(([name,desc])=>`
+            <tr><td style="font-weight:600">${name}</td><td>${desc}</td></tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-link"></i> 週計劃對應資源</h2>
+      <p style="font-size:.85rem;color:var(--gray-500);margin-bottom:12px">每週建議使用的本地資源檔案</p>
+      <div style="max-height:500px;overflow-y:auto">
+        ${WEEKLY_PLAN.map(w=>`
+          <div style="padding:10px 0;border-bottom:1px solid var(--gray-100)">
+            <div style="font-weight:600;font-size:.9rem">第${w.week}週 (${fmtDate(w.startDate)} - ${fmtDate(w.endDate)})</div>
+            <div style="font-size:.8rem;color:var(--gray-500);margin-top:4px">
+              <span class="subject-tag math" style="font-size:.7rem">數</span> ${w.math.resource}
+            </div>
+            <div style="font-size:.8rem;color:var(--gray-500);margin-top:2px">
+              <span class="subject-tag bio" style="font-size:.7rem">生</span> ${w.bio.resource}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', ()=>{
+  // Check if URL has hash for direct page
+  // Focus on login
+});
+</script>
+</body>
+</html>
